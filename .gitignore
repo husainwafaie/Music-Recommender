@@ -1,2 +1,4 @@
 musicrecommender/recommender/__pycache__/
 musicrecommender/musicrecommender/__pycache__/
+.env
+musicrecommender/.cache

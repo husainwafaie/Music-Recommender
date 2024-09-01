@@ -3,19 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
     <title>Home Page</title>
     <style>
-
         body {
             margin: 0;
             font-family: Arial, sans-serif;
             background-color: #1DB954; /* Spotify's green color */
-            color: grey; 
+            color: white;
         }
+
+        .dm-sans-seven {
+            font-family: "DM Sans", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 700;
+            font-style: bold;
+        }
+
+        .dm-sans-five {
+            font-family: "DM Sans", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 500;
+            font-style: medium;
+        }
+
+        .dm-sans-three {
+            font-family: "DM Sans", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 300;
+            font-style: light;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #3b3636;
+            padding: 10px 20px;
+            position: relative;
+            z-index: 1000;
+        }
+
+        .navbar img {
+            height: 50px;
+        }
+
+        .nav-items {
+            display: flex;
+            list-style: none;
+            margin-right: 20px;
+        }
+
+        .nav-item {
+            position: relative;
+            margin-left: 40px;
+        }
+
+        .nav-item a {
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            display: block;
+            font-size: 20px;
+        }
+
+        .nav-item a:hover {
+            background-color: #333;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #3b3636;
+            box-shadow: 0 8px 16px #3b3636;
+            z-index: 1001;
+        }
+
+        .dropdown-menu a {
+            padding: 10px;
+            white-space: nowrap;
+            font-size: 18px;
+        }
+
+        .nav-item:hover .dropdown-menu {
+            display: block;
+        }
+
         .container {
             display: flex;
-            height: 100vh;
+            height: calc(100vh - 70px); /* Adjusting height to account for the navbar */
+            padding-top: 70px; /* Space for navbar */
         }
+
         .left-column {
             flex: 1;
             padding: 20px;
@@ -24,6 +107,11 @@
             justify-content: center;
             text-align: center;
         }
+
+        .left-column h1 {
+            font-size: 50px;
+        }
+
         .right-column {
             flex: 1;
             display: flex;
@@ -31,20 +119,90 @@
             justify-content: center;
             padding: 20px;
         }
+
         img {
             max-width: 100%;
             height: auto;
         }
 
+        .spotify-button {
+            background-color: #1DB954;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .spotify-button:hover {
+            background-color: #1ed760;
+        }
+
     </style>
 </head>
 <body>
+    <div class="navbar">
+        <div class="logo">
+            {% load static %}
+            <img src="{% static 'assets/monkey-music.png' %}" alt="Logo" style="height: 5em; margin-left: 40px;">
+        </div>
+        <ul class="nav-items">
+            <li class="nav-item">
+                <a href="#" class="dm-sans-seven">Home</a>
+                <div class="dropdown-menu">
+                    <a href="/page1/" class="dm-sans-five">Home Page</a>
+                    <a href="/page2/" class="dm-sans-five">Guide</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="dm-sans-seven">My Music</a>
+                <div class="dropdown-menu">
+                    <a href="/page4/" class="dm-sans-five">My Taste</a>
+                    <a href="/page5/" class="dm-sans-five">Top Artists</a>
+                    <a href="/page6/" class="dm-sans-five">Top Songs</a>
+                    <a href="/page5/" class="dm-sans-five">Top Albums</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="dm-sans-seven">A.I. Mixer</a>
+                <div class="dropdown-menu">
+                    <a href="/page7/" class="dm-sans-five">Mix Now!</a>
+                    <a href="/page8/" class="dm-sans-five">My Mixes</a>
+                    <a href="/page9/" class="dm-sans-five">A.I. Guide</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="dm-sans-seven">Profile</a>
+                <div class="dropdown-menu">
+                    <a href="/page10/" class="dm-sans-five">Page 10</a>
+                    <a href="/page11/" class="dm-sans-five">Usage</a>
+                    <a href="/page12/" class="dm-sans-five">Sign Out</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="dm-sans-seven">Contact</a>
+                <div class="dropdown-menu">
+                    <a href="/page13/" class="dm-sans-five">FAQ</a>
+                    <a href="/page13/" class="dm-sans-five">Contact Us</a>
+                    <a href="/page14/" class="dm-sans-five">My info</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+
     <div class="container">
         <div class="left-column">
-            <p>Let's start our application.</p>
+            <h1>Music Recommender Home</h1>
+            {% if spotify_logged_in %}
+                <p>Welcome, {{ user_profile.display_name }}!</p>
+            {% else %}
+                <a href="{% url 'spotify_login' %}" class="spotify-button">Login to Spotify</a>
+            {% endif %}
         </div>
         <div class="right-column">
-            <img src="./assets/spotify-logo.png" alt="Spotify Logo">
+            <img src="{% static 'assets/spotify.png' %}" alt="Spotify Logo" style="height: 15em;">
         </div>
     </div>
 </body>
