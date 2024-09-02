@@ -88,4 +88,14 @@ def top_songs(request):
         seconds = (duration_ms // 1000) % 60
         track['duration'] = f"{minutes}:{seconds:02d}"  # Format as "minutes:seconds"
 
-    return render(request, 'topsongs.html', {'top_tracks': top_tracks})
+    return render(request, 'top_songs.html', {'top_tracks': top_tracks})
+
+@login_required
+def top_artists(request):
+    token_info = request.session.get('token_info', None)
+    sp = spotipy.Spotify(auth=token_info['access_token'])
+
+    results = sp.current_user_top_artists(limit=10, time_range='medium_term')
+    top_artists = results['items']
+
+    return render(request, 'top_artists.html', {'top_artists': top_artists})
