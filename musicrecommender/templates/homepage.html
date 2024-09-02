@@ -6,15 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
     <link rel="stylesheet" href="{% static 'css/global.css' %}">
+    <link rel="script" href="{% static 'js/script.js' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
     <title>SpotAI Home</title>
     <style>
         body {
-            background-color: #121212; /* Dark background */
-            color: #E5E5E5; /* Light text color */
-            font-family: "DM Sans", sans-serif; /* Consistent font */
+            background-color: #121212; 
+            color: #E5E5E5; 
+            font-family: "DM Sans", sans-serif; 
             margin: 0;
             padding: 0;
         }
@@ -23,9 +24,9 @@
             max-width: 1000px;
             margin: 50px auto;
             padding: 20px;
-            background-color: #1E1E1E; /* Slightly lighter than the background */
+            background-color: #1E1E1E; 
             border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); /* Subtle shadow */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
             opacity: 0;
             transform: translateY(20px);
             animation: fadeInContainer 0.8s ease-in-out forwards;
@@ -189,10 +190,7 @@
             {% endif %}
         </div>
     </div>
-    <script>
-        window.addEventListener('load', function() {
-            document.querySelector('.loading-overlay').classList.add('hidden');
-        });
-    </script>
+    
+    <script src="{% static 'js/theme-toggle.js' %}"></script>
 </body>
 </html>
