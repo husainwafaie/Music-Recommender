@@ -6,7 +6,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
-    <title>Home Page</title>
+    <title>SpotAI Home</title>
     <style>
         body {
             margin: 0;
@@ -95,14 +95,12 @@
 
         .container {
             display: flex;
-            height: calc(100vh - 70px); /* Adjusting height to account for the navbar */
-            padding-top: 70px; /* Space for navbar */
+            padding-top: 40px; /* Space for navbar */
         }
 
         .left-column {
             flex: 1;
-            padding: 20px;
-            display: flex;
+            padding: 10px 5%;
             align-items: center;
             justify-content: center;
             text-align: center;
@@ -110,6 +108,7 @@
 
         .left-column h1 {
             font-size: 50px;
+            text-align: center;
         }
 
         .right-column {
@@ -117,7 +116,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 30px;
         }
 
         img {
@@ -140,13 +139,48 @@
             background-color: #1ed760;
         }
 
+        .info-container {
+            background-color: #f5f5f5; /* Light grey background similar to the image */
+            border-radius: 10px; /* Rounded corners */
+            padding: 20px; /* Padding inside the container */
+            margin-top: 40px; /* Space between the containers */
+            text-align: center; /* Center the text */
+            color: #3b3636; /* Dark grey text color */
+        }
+
+        .info-container h2 {
+            font-size: 24px; /* Font size for the title */
+            margin-bottom: 10px; /* Space below the title */
+        }
+
+        .info-container p {
+            font-size: 16px; /* Font size for the paragraph */
+            margin-bottom: 20px; /* Space below the paragraph */
+        }
+
+        .schedule-button {
+            display: inline-block;
+            background-color: #1DB954; /* Same green as Spotify button */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px; /* Rounded button */
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .schedule-button:hover {
+            background-color: #1ed760; /* Lighter green on hover */
+        }
+
+
     </style>
 </head>
 <body>
     <div class="navbar">
         <div class="logo">
             {% load static %}
-            <img src="{% static 'assets/monkey-music.png' %}" alt="Logo" style="height: 5em; margin-left: 40px;">
+            <img src="{% static 'assets/spotify.png' %}" alt="Logo" style="height: 4em; margin-left: 30px; margin-top: 6px; margin-bottom: 5px;">
         </div>
         <ul class="nav-items">
             <li class="nav-item">
@@ -194,15 +228,35 @@
 
     <div class="container">
         <div class="left-column">
-            <h1>Music Recommender Home</h1>
             {% if spotify_logged_in %}
-                <p>Welcome, {{ user_profile.display_name }}!</p>
+                <h1 class="dm-sans-seven">My Home</h1>
+                <p class="dm-sans-three" style="font-size: 20px;">Welcome, {{ user_profile.display_name }}! Get started and discover SpotAI's capabilities below!</p>
+                
+                <!-- New Container 1 -->
+                <div class="info-container">
+                    <h2>Explore Your Music</h2>
+                    <p>Get started with our free-of-charge, personalised support. Create your custom ads plan with a Google Ads Expert.</p>
+                    <a href="#" class="schedule-button">View My Taste</a>
+                </div>
+    
+                <!-- New Container 2 -->
+                <div class="info-container">
+                    <h2>A.I. Mix</h2>
+                    <p>A.I mixer description goes here.</p>
+                    <a href="#" class="schedule-button">Explore Now</a>
+                </div>
             {% else %}
+                <h1 class="dm-sans-seven">SpotAI Home</h1>
+                <p class="dm-sans-three" style="font-size: 20px;">Welcome to SpotAI! Login using your Spotify account to get started!</p>
                 <a href="{% url 'spotify_login' %}" class="spotify-button">Login to Spotify</a>
             {% endif %}
         </div>
         <div class="right-column">
-            <img src="{% static 'assets/spotify.png' %}" alt="Spotify Logo" style="height: 15em;">
+            {% if spotify_logged_in and user_profile.images %}
+                <img src="{{ user_profile.images.0.url }}" alt="Profile Picture" style="height: 20em;">
+            {% else %}
+                <img src="{% static 'assets/spotify.png' %}" alt="Spotify Logo" style="height: 20em;">
+            {% endif %}
         </div>
     </div>
 </body>
