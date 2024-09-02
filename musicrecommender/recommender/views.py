@@ -49,6 +49,7 @@ def mainpage(request):
     else:
         return render(request, "homepage.html", {'spotify_logged_in': False})
 
+@login_required
 def spotify_login(request):
     sp_oauth = SpotifyOAuth(
         client_id=os.getenv('SPOTIPY_CLIENT_ID'),
@@ -72,3 +73,19 @@ def spotify_callback(request):
     request.session['token_info'] = token_info
     
     return redirect(mainpage)
+
+@login_required
+def top_songs(request):
+    token_info = request.session.get('token_info', None)
+    sp = spotipy.Spotify(auth=token_info['access_token'])
+
+    results = sp.current_user_top_tracks(limit=20, time_range='medium_term')
+    top_tracks = results['items']
+
+    for track in top_tracks:
+        duration_ms = track['duration_ms']
+        minutes = duration_ms // 60000
+        seconds = (duration_ms // 1000) % 60
+        track['duration'] = f"{minutes}:{seconds:02d}"  # Format as "minutes:seconds"
+
+    return render(request, 'topsongs.html', {'top_tracks': top_tracks})

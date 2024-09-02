@@ -6,7 +6,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
-    <link href="main.css" rel="stylesheet">
+    
     <title>SpotAI Home</title>
     <style>
         body {
@@ -97,7 +97,7 @@
 
         .container {
             display: flex;
-            padding-top: 40px; /* Space for navbar */
+            padding-top: 40px; 
         }
 
         .left-column {
@@ -143,37 +143,37 @@
         }
 
         .info-container {
-            background-color: #f5f5f5; /* Light grey background similar to the image */
-            border-radius: 10px; /* Rounded corners */
-            padding: 20px; /* Padding inside the container */
-            margin-top: 40px; /* Space between the containers */
-            text-align: center; /* Center the text */
-            color: #3b3636; /* Dark grey text color */
+            background-color: #f5f5f5; 
+            border-radius: 10px; 
+            padding: 20px; 
+            margin-top: 40px; 
+            text-align: center; 
+            color: #3b3636; 
         }
 
         .info-container h2 {
-            font-size: 24px; /* Font size for the title */
-            margin-bottom: 10px; /* Space below the title */
+            font-size: 24px; 
+            margin-bottom: 10px;
         }
 
         .info-container p {
-            font-size: 16px; /* Font size for the paragraph */
-            margin-bottom: 20px; /* Space below the paragraph */
+            font-size: 16px; 
+            margin-bottom: 20px;
         }
 
         .schedule-button {
             display: inline-block;
-            background-color: #1DB954; /* Same green as Spotify button */
+            background-color: #1DB954; 
             color: white;
             padding: 10px 20px;
-            border-radius: 25px; /* Rounded button */
+            border-radius: 25px; 
             text-decoration: none;
             font-size: 16px;
             font-weight: bold;
         }
 
         .schedule-button:hover {
-            background-color: #1ed760; /* Lighter green on hover */
+            background-color: #1ed760; 
         }
 
         .logincontainer {
@@ -190,7 +190,7 @@
         .logincontainer h1 {
             font-size: 24px;
             font-weight: 700;
-            color: #1DB954; /* Using your application's primary color */
+            color: #1DB954; 
             margin-bottom: 20px;
         }
 
@@ -217,7 +217,7 @@
             background-color: white;
             color: #1DB954;
             padding: 10px 20px;
-            border: 2px solid #1DB954; /* Correctly define the border with width, style, and color */
+            border: 2px solid #1DB954; 
             border-radius: 50px;
             font-size: 20px;
             font-family: "DM Sans", sans-serif;
@@ -227,7 +227,7 @@
 
 
         .create-account:hover {
-            background-color: #e0e0e0; /* Slightly darker shade for hover effect */
+            background-color: #e0e0e0; 
         }
 
     </style>
@@ -240,9 +240,9 @@
         </div>
         <ul class="nav-items">
             <li class="nav-item">
-                <a href="#" class="dm-sans-seven">Home</a>
+                <a href="{% url 'home' %}" class="dm-sans-seven">Home</a>
                 <div class="dropdown-menu">
-                    <a href="/page1/" class="dm-sans-five">Home Page</a>
+                    <a href="{% url 'home' %}" class="dm-sans-five">Home Page</a>
                     <a href="/page2/" class="dm-sans-five">Guide</a>
                 </div>
             </li>
@@ -251,7 +251,7 @@
                 <div class="dropdown-menu">
                     <a href="/page4/" class="dm-sans-five">My Taste</a>
                     <a href="/page5/" class="dm-sans-five">Top Artists</a>
-                    <a href="/page6/" class="dm-sans-five">Top Songs</a>
+                    <a href="{% url 'top_songs' %}" class="dm-sans-five">Top Songs</a>
                     <a href="/page5/" class="dm-sans-five">Top Albums</a>
                 </div>
             </li>

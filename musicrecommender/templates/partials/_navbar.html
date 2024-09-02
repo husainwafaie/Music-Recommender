@@ -1,0 +1,48 @@
+<div class="navbar">
+    <div class="logo">
+        {% load static %}
+        <img src="{% static 'assets/spotify.png' %}" alt="Logo" style="height: 4em; margin-left: 30px; margin-top: 6px; margin-bottom: 5px;">
+    </div>
+    <ul class="nav-items">
+        <li class="nav-item">
+            <a href="{% url 'home' %}" class="dm-sans-seven">Home</a>
+            <div class="dropdown-menu">
+                <a href="{% url 'home' %}" class="dm-sans-five">Home Page</a>
+                <a href="/page2/" class="dm-sans-five">Guide</a>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="dm-sans-seven">My Music</a>
+            <div class="dropdown-menu">
+                <a href="/page4/" class="dm-sans-five">My Taste</a>
+                <a href="/page5/" class="dm-sans-five">Top Artists</a>
+                <a href="{% url 'top_songs' %}" class="dm-sans-five">Top Songs</a>
+                <a href="/page5/" class="dm-sans-five">Top Albums</a>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="dm-sans-seven">A.I. Mixer</a>
+            <div class="dropdown-menu">
+                <a href="/page7/" class="dm-sans-five">Mix Now!</a>
+                <a href="/page8/" class="dm-sans-five">My Mixes</a>
+                <a href="/page9/" class="dm-sans-five">A.I. Guide</a>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="dm-sans-seven">Profile</a>
+            <div class="dropdown-menu">
+                <a href="/page10/" class="dm-sans-five">Page 10</a>
+                <a href="/page11/" class="dm-sans-five">Usage</a>
+                <a href="/page12/" class="dm-sans-five">Sign Out</a>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="dm-sans-seven">Contact</a>
+            <div class="dropdown-menu">
+                <a href="/page13/" class="dm-sans-five">FAQ</a>
+                <a href="/page13/" class="dm-sans-five">Contact Us</a>
+                <a href="/page14/" class="dm-sans-five">My info</a>
+            </div>
+        </li>
+    </ul>
+</div>
