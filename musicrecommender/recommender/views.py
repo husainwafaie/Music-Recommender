@@ -25,14 +25,14 @@ def register_view(request):
             elif User.objects.filter(email=email).exists():
                 messages.error(request, 'Email already registered')
             else:
-                user = User.objects.create_user(username=username, email=email, password=password)
-                user.is_active = False  # Mark the account as inactive until email is verified
-                user.save()
 
                 # Generate OTP and send email
                 otp = get_random_string(length=6, allowed_chars='0123456789')
                 request.session['otp'] = otp
                 request.session['username'] = username
+                request.session['user_data'] = {'username' : username, 
+                                                'password' : password, 
+                                                'email' : email}
                 send_mail(
                     'SpotAI Account Verification',
                     f'Your one-time passcode (OTP) is: {otp}',
