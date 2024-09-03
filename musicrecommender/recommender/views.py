@@ -1,10 +1,75 @@
 import os
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
+from django.contrib.auth.models import User
+from django.core.mail import send_mail
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
+from django.utils.crypto import get_random_string
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
+
+
+
+def register_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['password1']
+        confirm_password = request.POST['password2']
+
+        if password == confirm_password:
+            if User.objects.filter(username=username).exists():
+                messages.error(request, 'Username already taken')
+            elif User.objects.filter(email=email).exists():
+                messages.error(request, 'Email already registered')
+            else:
+                user = User.objects.create_user(username=username, email=email, password=password)
+                user.is_active = False  # Mark the account as inactive until email is verified
+                user.save()
+
+                # Generate OTP and send email
+                otp = get_random_string(length=6, allowed_chars='0123456789')
+                request.session['otp'] = otp
+                request.session['username'] = username
+                send_mail(
+                    'SpotAI Account Verification',
+                    f'Your one-time passcode (OTP) is: {otp}',
+                    'noreply@spotai.com',
+                    [email],
+                    fail_silently=False,
+                )
+
+                return redirect('verify_otp')
+        else:
+            messages.error(request, 'Passwords do not match')
+    
+    return render(request, 'register.html')
+
+
+def verify_otp_view(request):
+    if request.method == 'POST':
+        otp = request.POST['otp']
+        if otp == request.session.get('otp'):
+            username = request.session.get('username')
+            user = User.objects.get(username=username)
+            user.is_active = True  # Activate the user account
+            user.save()
+
+            # Log the user in
+            login(request, user)
+            messages.success(request, 'Account verified successfully!')
+
+            # Clean up session
+            request.session.pop('otp', None)
+            request.session.pop('username', None)
+
+            return redirect('home')
+        else:
+            messages.error(request, 'Invalid OTP. Please try again.')
+
+    return render(request, 'verify_otp.html')
 
 
 def get_spotify_client(token_info):

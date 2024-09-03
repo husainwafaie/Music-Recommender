@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="main.css">
+    
     <style>
 
         body {
@@ -162,7 +162,7 @@
         <div class="divider">
             <span class="divider-text">or</span>
         </div>
-        <button class="create-account">Create new account</button>
+        <button class="create-account" onclick="window.location.href=`{% url 'register_view' %}`">Create new account</button>
     </div>
 </body>
 </html>
