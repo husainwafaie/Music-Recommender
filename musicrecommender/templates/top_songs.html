@@ -102,11 +102,6 @@
             transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
         }
 
-        tr:hover {
-            background-color: #3B3B3B; 
-            transform: scale(1.02); 
-        }
-
         
         @media (max-width: 768px) {
             table, th, td {
@@ -211,6 +206,7 @@
             --second-table-color: #333;
             --third-table-color: #2B2B2B;
             --border-table-color: #2B2B2B;
+            --hover-row-color: #3B3B3B;
         }
 
         /* Light mode variables */
@@ -226,6 +222,7 @@
             --second-table-color: #969494;
             --third-table-color: #b5b5b5;
             --border-table-color: #a8a5a5;
+            --hover-row-color: #6b6b6b;
         }
 
         /* Apply the variables */
@@ -233,6 +230,11 @@
             background-color: var(--background-color);
             color: var(--text-color);
             transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        tr:hover, tr:nth-child(even):hover {
+            background-color: var(--hover-row-color); 
+            transform: scale(1.02); 
         }
 
         .navbar {

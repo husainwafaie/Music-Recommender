@@ -180,6 +180,7 @@
             --button-background-color: #1DB954;
             --button-text-color: #ffffff;
             --info-background-color: #252525;
+            --info-hover-color:#333;
         }
 
         /* Light mode variables */
@@ -191,6 +192,7 @@
             --button-background-color: #1DB954;
             --button-text-color: #ffffff;
             --info-background-color: #8b8b8b;
+            --info-hover-color:#5b5a5a;
         }
 
         /* Apply the variables */
@@ -217,6 +219,10 @@
         .schedule-button, .create-account {
             background-color: var(--button-background-color);
             color: var(--button-text-color);
+        }
+
+        .info-container:hover {
+            background-color: var(--info-hover-color); /* Slightly darker on hover */
         }
 
         .schedule-button:hover, .create-account:hover {
