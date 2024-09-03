@@ -1,0 +1,99 @@
+<style>
+    /* Toggle switch style */
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+    
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+    
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+        border-radius: 34px;
+    }
+    
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: .4s;
+        border-radius: 50%;
+    }
+    
+    input:checked + .slider {
+        background-color: #1DB954;
+    }
+    
+    input:checked + .slider:before {
+        transform: translateX(26px);
+    }
+</style>
+<div class="navbar">
+    <div class="logo">
+        {% load static %}
+        {% if spotify_logged_in and user_profile.images %}
+            <img src="{{ user_profile.images.0.url }}" alt="Profile Picture" style="height: 4em; border-radius: 50%; margin-left: 30px; margin-top: 6px; margin-bottom: 5px;">
+        {% else %}
+            <img src="{% static 'assets/spotify.png' %}" alt="Logo" style="height: 4em; margin-left: 30px; margin-top: 6px; margin-bottom: 5px;">
+        {% endif %}
+    </div>
+    <ul class="nav-items">
+        <li class="nav-item">
+            <a href="{% url 'home' %}" class="dm-sans-seven">Home</a>
+            <div class="dropdown-menu">
+                <a href="{% url 'home' %}" class="dm-sans-five">Home Page</a>
+                <a href="/page2/" class="dm-sans-five">Guide</a>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="dm-sans-seven">My Music</a>
+            <div class="dropdown-menu">
+                <a href="/page4/" class="dm-sans-five">My Taste</a>
+                <a href="{% url 'top_artists' %}" class="dm-sans-five">Top Artists</a>
+                <a href="{% url 'top_songs' %}" class="dm-sans-five">Top Songs</a>
+                <a href="{% url 'top_albums' %}" class="dm-sans-five">Top Albums</a>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="dm-sans-seven">A.I. Mixer</a>
+            <div class="dropdown-menu">
+                <a href="/page7/" class="dm-sans-five">Mix Now!</a>
+                <a href="/page8/" class="dm-sans-five">My Mixes</a>
+                <a href="/page9/" class="dm-sans-five">A.I. Guide</a>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="dm-sans-seven">Settings</a>
+            <div class="dropdown-menu">
+                <a href="{% url 'mode' %}" class="dm-sans-five">Light/Dark Mode</a>
+                <a href="/page11/" class="dm-sans-five">Usage</a>
+                <a href="/page12/" class="dm-sans-five">Sign Out</a>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="dm-sans-seven">Contact</a>
+            <div class="dropdown-menu">
+                <a href="/page13/" class="dm-sans-five">FAQ</a>
+                <a href="/page13/" class="dm-sans-five">Contact Us</a>
+                <a href="/page14/" class="dm-sans-five">My info</a>
+            </div>
+        </li>
+    </ul>
+</div>

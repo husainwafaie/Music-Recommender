@@ -1,0 +1,308 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}"> <!-- Link to navbar styles -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+    <title>My Top Artists</title>
+    <style>
+        body {
+            background-color: #121212; 
+            color: #E5E5E5;
+            font-family: "DM Sans", sans-serif; 
+            margin: 0;
+            padding: 0;
+        }
+
+        .dm-sans-seven {
+            font-family: "DM Sans", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 700;
+            font-style: bold;
+        }
+
+        .dm-sans-five {
+            font-family: "DM Sans", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 500;
+            font-style: medium;
+        }
+
+        .dm-sans-three {
+            font-family: "DM Sans", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 300;
+            font-style: light;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #1E1E1E;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInContainer 0.8s ease-in-out forwards;
+        }
+
+        @keyframes fadeInContainer {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            color: #1DB954;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #252525; 
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid #3B3B3B; 
+        }
+        th {
+            background-color: #333; 
+            color: #E5E5E5;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #2B2B2B;
+        }
+        
+
+        a {
+            color: #1DB954;
+            text-decoration: none;
+            transition: color 0.2s ease-in-out, transform 0.2s ease-in-out;
+        }
+
+        a:hover {
+            color: #1ED760; 
+            transform: scale(1.05); 
+        }
+        
+
+        tr, td {
+            transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+        }
+
+
+        
+        @media (max-width: 768px) {
+            table, th, td {
+                font-size: 14px;
+            }
+            h1 {
+                font-size: 2em;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        tr {
+            animation: fadeIn 0.5s ease-in-out;
+            animation-fill-mode: forwards;
+            opacity: 0; 
+        }
+
+        tr:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+        tr:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+        tr:nth-child(3) {
+            animation-delay: 0.5s;
+        }
+        tr:nth-child(4) {
+            animation-delay: 0.7s;
+        }
+        tr:nth-child(5) {
+            animation-delay: 0.9s;
+        }
+        tr:nth-child(6) {
+            animation-delay: 1.1s;
+        }
+        tr:nth-child(7) {
+            animation-delay: 1.3s;
+        }
+        tr:nth-child(8) {
+            animation-delay: 1.5s;
+        }
+        tr:nth-child(9) {
+            animation-delay: 1.7s;
+        }
+        tr:nth-child(10) {
+            animation-delay: 1.9s;
+        }
+        tr:nth-child(11) {
+            animation-delay: 2.1s;
+        }
+        tr:nth-child(12) {
+            animation-delay: 2.3s;
+        }
+        tr:nth-child(13) {
+            animation-delay: 2.5s;
+        }
+        tr:nth-child(14) {
+            animation-delay: 2.7s;
+        }
+        tr:nth-child(15) {
+            animation-delay: 2.9s;
+        }
+        tr:nth-child(16) {
+            animation-delay: 3.1s;
+        }
+        tr:nth-child(17) {
+            animation-delay: 3.3s;
+        }
+        tr:nth-child(18) {
+            animation-delay: 3.5s;
+        }
+        tr:nth-child(19) {
+            animation-delay: 3.7s;
+        }
+        tr:nth-child(20) {
+            animation-delay: 3.9s;
+        }
+        tr:nth-child(21) {
+            animation-delay: 4.1s;
+        }
+
+        /* Dark mode variables (default) */
+        :root {
+            --background-color: #121212;
+            --text-color: #E5E5E5;
+            --navbar-background-color: #3b3636;
+            --container-background-color: #1E1E1E;
+            --button-background-color: #1DB954;
+            --button-text-color: #ffffff;
+            --info-background-color: #252525;
+            --first-table-color: #252525;
+            --second-table-color: #333;
+            --third-table-color: #2B2B2B;
+            --border-table-color: #2B2B2B;
+            --hover-row-color: #3B3B3B;
+        }
+
+        /* Light mode variables */
+        body.light-mode {
+            --background-color: #ffffff;
+            --text-color: #121212;
+            --navbar-background-color: #8b8b8b;
+            --container-background-color: #d2d1d1; 
+            --button-background-color: #1DB954;
+            --button-text-color: #ffffff;
+            --info-background-color: #8b8b8b;
+            --first-table-color: #8c8c8c;
+            --second-table-color: #969494;
+            --third-table-color: #b5b5b5;
+            --border-table-color: #a8a5a5;
+            --hover-row-color: #6b6b6b;
+        }
+
+        /* Apply the variables */
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        tr:hover, tr:nth-child(even):hover {
+            background-color: var(--hover-row-color); 
+            transform: scale(1.02); 
+        }
+
+        .navbar {
+            background-color: var(--navbar-background-color);
+        }
+
+        .container {
+            background-color: var(--container-background-color);
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Light shadow for light mode */
+        }
+
+        .info-container {
+            background-color: var(--info-background-color);
+        }
+
+        .schedule-button, .create-account {
+            background-color: var(--button-background-color);
+            color: var(--button-text-color);
+        }
+
+        .schedule-button:hover, .create-account:hover {
+            background-color: #1ed760;
+        }
+
+        table {
+            background-color: var(--first-table-color);
+        }
+        th, td {
+            border-bottom: 1px solid var(--border-table-color); 
+        }
+        th {
+            background-color: var(--second-table-color);
+            color: #E5E5E5;
+        }
+
+        tr:nth-child(even) {
+            background-color: var(--third-table-color);
+        }
+
+    </style>
+</head>
+<body>
+    {% include 'partials/_navbar.html' %}  <!-- Include the navbar -->
+
+    <div class="container">
+        <h1 class="dm-sans-seven">Your Top 10 Artists</h1>
+        <table>
+            <tr>
+                <th>#</th>
+                <th>Artist</th>
+                <th>Genres</th>
+                <th>Followers</th>
+                <th>Popularity</th>
+            </tr>
+            {% for artist in top_artists %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td><a href="{{ artist.external_urls.spotify }}" target="_blank">{{ artist.name }}</a></td>
+                <td>{{ artist.genres|join:", "|title }}</td>
+                <td>{{ artist.followers.total|intcomma }}</td>
+                <td>{{ artist.popularity }}%</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <script src="{% static 'js/theme-toggle.js' %}"></script>
+</body>
+</html>
