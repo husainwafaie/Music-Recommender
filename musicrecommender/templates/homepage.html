@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
     <link rel="stylesheet" href="{% static 'css/global.css' %}">
-    <link rel="script" href="{% static 'js/script.js' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
@@ -18,6 +17,27 @@
             font-family: "DM Sans", sans-serif; 
             margin: 0;
             padding: 0;
+        }
+
+        .dm-sans-seven {
+            font-family: "DM Sans", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 700;
+            font-style: bold;
+        }
+
+        .dm-sans-five {
+            font-family: "DM Sans", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 500;
+            font-style: medium;
+        }
+
+        .dm-sans-three {
+            font-family: "DM Sans", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 300;
+            font-style: light;
         }
 
         .container {
@@ -151,6 +171,58 @@
             color: white;
         }
 
+        /* Dark mode variables (default) */
+        :root {
+            --background-color: #121212;
+            --text-color: #E5E5E5;
+            --navbar-background-color: #3b3636;
+            --container-background-color: #1E1E1E;
+            --button-background-color: #1DB954;
+            --button-text-color: #ffffff;
+            --info-background-color: #252525;
+        }
+
+        /* Light mode variables */
+        body.light-mode {
+            --background-color: #ffffff;
+            --text-color: #121212;
+            --navbar-background-color: #8b8b8b;
+            --container-background-color: #d2d1d1; 
+            --button-background-color: #1DB954;
+            --button-text-color: #ffffff;
+            --info-background-color: #8b8b8b;
+        }
+
+        /* Apply the variables */
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .navbar {
+            background-color: var(--navbar-background-color);
+        }
+
+        .container {
+            background-color: var(--container-background-color);
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Light shadow for light mode */
+        }
+
+        .info-container {
+            background-color: var(--info-background-color);
+        }
+
+        .schedule-button, .create-account {
+            background-color: var(--button-background-color);
+            color: var(--button-text-color);
+        }
+
+        .schedule-button:hover, .create-account:hover {
+            background-color: #1ed760;
+        }
+
 
     </style>
 </head>
@@ -190,7 +262,7 @@
             {% endif %}
         </div>
     </div>
-    
+
     <script src="{% static 'js/theme-toggle.js' %}"></script>
 </body>
 </html>

@@ -9,5 +9,6 @@ urlpatterns = [
     path('spotify-login/', views.spotify_login, name='spotify_login'),
     path('callback/', views.spotify_callback, name='spotify_callback'),
     path('top-songs/', views.top_songs, name='top_songs'),
-    path('top-artists/', views.top_artists, name='top_artists')
+    path('top-artists/', views.top_artists, name='top_artists'),
+    path('mode/', views.light_dark_mode, name='mode')
 ]

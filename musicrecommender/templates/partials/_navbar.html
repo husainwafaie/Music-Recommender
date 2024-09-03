@@ -80,9 +80,9 @@
             </div>
         </li>
         <li class="nav-item">
-            <a href="#" class="dm-sans-seven">Profile</a>
+            <a href="#" class="dm-sans-seven">Settings</a>
             <div class="dropdown-menu">
-                <a href="/page10/" class="dm-sans-five">Page 10</a>
+                <a href="{% url 'mode' %}" class="dm-sans-five">Light/Dark Mode</a>
                 <a href="/page11/" class="dm-sans-five">Usage</a>
                 <a href="/page12/" class="dm-sans-five">Sign Out</a>
             </div>
@@ -96,10 +96,4 @@
             </div>
         </li>
     </ul>
-    <div class="dark-mode-toggle">
-        <label class="switch">
-            <input type="checkbox" id="dark-mode-checkbox">
-            <span class="slider round"></span>
-        </label>
-    </div>
 </div>

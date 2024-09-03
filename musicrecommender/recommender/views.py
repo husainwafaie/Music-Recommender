@@ -99,3 +99,6 @@ def top_artists(request):
     top_artists = results['items']
 
     return render(request, 'top_artists.html', {'top_artists': top_artists})
+
+def light_dark_mode(request):
+    return render(request, 'light_dark_mode.html')

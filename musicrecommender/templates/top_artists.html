@@ -11,13 +11,33 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
     <title>My Top Artists</title>
     <style>
-        /* Your CSS styles here */
         body {
             background-color: #121212; 
             color: #E5E5E5;
             font-family: "DM Sans", sans-serif; 
             margin: 0;
             padding: 0;
+        }
+
+        .dm-sans-seven {
+            font-family: "DM Sans", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 700;
+            font-style: bold;
+        }
+
+        .dm-sans-five {
+            font-family: "DM Sans", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 500;
+            font-style: medium;
+        }
+
+        .dm-sans-three {
+            font-family: "DM Sans", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 300;
+            font-style: light;
         }
         .container {
             max-width: 1000px;
@@ -44,7 +64,6 @@
             color: #1DB954;
             margin-bottom: 20px;
         }
-
         table {
             width: 100%;
             border-collapse: collapse;
@@ -52,13 +71,11 @@
             border-radius: 10px;
             overflow: hidden;
         }
-
         th, td {
             padding: 15px 20px;
             text-align: left;
             border-bottom: 1px solid #3B3B3B; 
         }
-
         th {
             background-color: #333; 
             color: #E5E5E5;
@@ -68,6 +85,7 @@
         tr:nth-child(even) {
             background-color: #2B2B2B;
         }
+        
 
         a {
             color: #1DB954;
@@ -79,6 +97,7 @@
             color: #1ED760; 
             transform: scale(1.05); 
         }
+        
 
         tr {
             transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
@@ -89,6 +108,7 @@
             transform: scale(1.02); 
         }
 
+        
         @media (max-width: 768px) {
             table, th, td {
                 font-size: 14px;
@@ -145,6 +165,115 @@
         tr:nth-child(10) {
             animation-delay: 1.9s;
         }
+        tr:nth-child(11) {
+            animation-delay: 2.1s;
+        }
+        tr:nth-child(12) {
+            animation-delay: 2.3s;
+        }
+        tr:nth-child(13) {
+            animation-delay: 2.5s;
+        }
+        tr:nth-child(14) {
+            animation-delay: 2.7s;
+        }
+        tr:nth-child(15) {
+            animation-delay: 2.9s;
+        }
+        tr:nth-child(16) {
+            animation-delay: 3.1s;
+        }
+        tr:nth-child(17) {
+            animation-delay: 3.3s;
+        }
+        tr:nth-child(18) {
+            animation-delay: 3.5s;
+        }
+        tr:nth-child(19) {
+            animation-delay: 3.7s;
+        }
+        tr:nth-child(20) {
+            animation-delay: 3.9s;
+        }
+        tr:nth-child(21) {
+            animation-delay: 4.1s;
+        }
+
+        /* Dark mode variables (default) */
+        :root {
+            --background-color: #121212;
+            --text-color: #E5E5E5;
+            --navbar-background-color: #3b3636;
+            --container-background-color: #1E1E1E;
+            --button-background-color: #1DB954;
+            --button-text-color: #ffffff;
+            --info-background-color: #252525;
+            --first-table-color: #252525;
+            --second-table-color: #333;
+            --third-table-color: #2B2B2B;
+            --border-table-color: #2B2B2B;
+        }
+
+        /* Light mode variables */
+        body.light-mode {
+            --background-color: #ffffff;
+            --text-color: #121212;
+            --navbar-background-color: #8b8b8b;
+            --container-background-color: #d2d1d1; 
+            --button-background-color: #1DB954;
+            --button-text-color: #ffffff;
+            --info-background-color: #8b8b8b;
+            --first-table-color: #8c8c8c;
+            --second-table-color: #969494;
+            --third-table-color: #b5b5b5;
+            --border-table-color: #a8a5a5;
+        }
+
+        /* Apply the variables */
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .navbar {
+            background-color: var(--navbar-background-color);
+        }
+
+        .container {
+            background-color: var(--container-background-color);
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Light shadow for light mode */
+        }
+
+        .info-container {
+            background-color: var(--info-background-color);
+        }
+
+        .schedule-button, .create-account {
+            background-color: var(--button-background-color);
+            color: var(--button-text-color);
+        }
+
+        .schedule-button:hover, .create-account:hover {
+            background-color: #1ed760;
+        }
+
+        table {
+            background-color: var(--first-table-color);
+        }
+        th, td {
+            border-bottom: 1px solid var(--border-table-color); 
+        }
+        th {
+            background-color: var(--second-table-color);
+            color: #E5E5E5;
+        }
+
+        tr:nth-child(even) {
+            background-color: var(--third-table-color);
+        }
+
     </style>
 </head>
 <body>
@@ -171,5 +300,6 @@
             {% endfor %}
         </table>
     </div>
+    <script src="{% static 'js/theme-toggle.js' %}"></script>
 </body>
 </html>
