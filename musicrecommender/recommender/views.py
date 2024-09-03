@@ -6,6 +6,22 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
 
+
+def get_spotify_client(token_info):
+    sp_oauth = SpotifyOAuth(
+        client_id=os.getenv('SPOTIPY_CLIENT_ID'),
+        client_secret=os.getenv('SPOTIPY_CLIENT_SECRET'),
+        redirect_uri=os.getenv('SPOTIPY_REDIRECT_URI')
+    )
+    
+    if sp_oauth.is_token_expired(token_info):
+        token_info = sp_oauth.refresh_access_token(token_info['refresh_token'])
+    
+    sp = spotipy.Spotify(auth=token_info['access_token'])
+    user_profile = sp.current_user()
+    
+    return sp, user_profile, token_info
+
 def index(request):
     return redirect(login_view)
 
@@ -77,7 +93,8 @@ def spotify_callback(request):
 @login_required
 def top_songs(request):
     token_info = request.session.get('token_info', None)
-    sp = spotipy.Spotify(auth=token_info['access_token'])
+    theme = request.session.get('theme', 'dark')
+    sp, user_profile, token_info = get_spotify_client(token_info)
 
     results = sp.current_user_top_tracks(limit=20, time_range='medium_term')
     top_tracks = results['items']
@@ -86,19 +103,31 @@ def top_songs(request):
         duration_ms = track['duration_ms']
         minutes = duration_ms // 60000
         seconds = (duration_ms // 1000) % 60
-        track['duration'] = f"{minutes}:{seconds:02d}"  # Format as "minutes:seconds"
+        track['duration'] = f"{minutes}:{seconds:02d}"
 
-    return render(request, 'top_songs.html', {'top_tracks': top_tracks})
+    return render(request, 'top_songs.html', {
+        'top_tracks': top_tracks,
+        'spotify_logged_in': True,
+        'user_profile': user_profile,
+        'theme': theme
+    })
 
 @login_required
 def top_artists(request):
     token_info = request.session.get('token_info', None)
-    sp = spotipy.Spotify(auth=token_info['access_token'])
+    theme = request.session.get('theme', 'dark')
+    sp, user_profile, token_info = get_spotify_client(token_info)
 
     results = sp.current_user_top_artists(limit=10, time_range='medium_term')
     top_artists = results['items']
 
-    return render(request, 'top_artists.html', {'top_artists': top_artists})
+    return render(request, 'top_artists.html', {
+        'top_artists': top_artists,
+        'spotify_logged_in': True,
+        'user_profile': user_profile,
+        'theme': theme
+    })
+
 
 def light_dark_mode(request):
     return render(request, 'light_dark_mode.html')
