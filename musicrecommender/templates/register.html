@@ -91,6 +91,17 @@
         <h1>Register</h1>
         <form id="registerForm" method="post">
             {% csrf_token %}
+
+            {% if messages %}
+            <div class="error-message">
+                {% for message in messages %}
+                    {% if forloop.first %}
+                        <p>{{ message }}</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+
             <label for="username">Username</label>
             <input type="text" id="username" name="username" required>
 
@@ -103,7 +114,7 @@
             <label for="password2">Confirm Password</label>
             <input type="password" id="password2" name="password2" required>
 
-            <div id="password-error" class="error-message" style="display:none;">Passwords do not match or do not meet the required constraints.</div>
+            <div id="password-error" class="error-message" style="display:none;"></div>
 
             <button type="submit">Register</button>
         </form>
@@ -114,16 +125,22 @@
             const password1 = document.getElementById('password1').value;
             const password2 = document.getElementById('password2').value;
             const passwordError = document.getElementById('password-error');
-            
+
             const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
 
             if (password1 !== password2 || !passwordRegex.test(password1)) {
-                event.preventDefault();
-                passwordError.style.display = 'block';
+                event.preventDefault(); // Prevent form submission
+                if (passwordError) {
+                    passwordError.style.display = 'block';
+                    passwordError.innerText = 'Passwords do not match or do not meet the required constraints.';
+                }
             } else {
-                passwordError.style.display = 'none';
+                if (passwordError) {
+                    passwordError.style.display = 'none';
+                }
             }
         });
+
     </script>
 </body>
 </html>

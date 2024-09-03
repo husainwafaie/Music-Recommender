@@ -44,32 +44,40 @@ def register_view(request):
                 return redirect('verify_otp')
         else:
             messages.error(request, 'Passwords do not match')
-    
+
     return render(request, 'register.html')
+
 
 
 def verify_otp_view(request):
     if request.method == 'POST':
         otp = request.POST['otp']
         if otp == request.session.get('otp'):
-            username = request.session.get('username')
-            user = User.objects.get(username=username)
-            user.is_active = True  # Activate the user account
-            user.save()
+            user_data = request.session.get('user_data')
+            if user_data:
+                # Create the user only after OTP is verified
+                user = User.objects.create_user(
+                    username=user_data['username'],
+                    email=user_data['email'],
+                    password=user_data['password']
+                )
+                user.is_active = True  # Activate the user account
+                user.save()
 
-            # Log the user in
-            login(request, user)
-            messages.success(request, 'Account verified successfully!')
+                # Log the user in
+                login(request, user)
+                messages.success(request, 'Account verified successfully!')
 
-            # Clean up session
-            request.session.pop('otp', None)
-            request.session.pop('username', None)
+                # Clean up session
+                request.session.pop('otp', None)
+                request.session.pop('user_data', None)
 
-            return redirect('home')
+                return redirect('home')
         else:
             messages.error(request, 'Invalid OTP. Please try again.')
 
     return render(request, 'verify_otp.html')
+
 
 
 def get_spotify_client(token_info):
