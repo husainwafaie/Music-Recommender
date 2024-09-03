@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SpotAI Login</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="{% static 'css/global.css' %}">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     
@@ -149,6 +151,8 @@
     </style>
 </head>
 <body>
+    {% include 'partials/_loading_screen.html' %}
+
     <div class="container">
         <h1 class="dm-sans-seven" style="font-size: 2em;">SpotAI</h1>
         <form method="post">
@@ -164,5 +168,7 @@
         </div>
         <button class="create-account" onclick="window.location.href=`{% url 'register_view' %}`">Create new account</button>
     </div>
+
+    <script src="{% static 'js/theme-toggle.js' %}"></script>
 </body>
 </html>

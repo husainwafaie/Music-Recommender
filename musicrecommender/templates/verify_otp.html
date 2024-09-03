@@ -7,6 +7,7 @@
     <title>SpotAI Verify OTP</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="{% static 'css/global.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         /* Similar styling as login page */
@@ -88,6 +89,7 @@
     </style>
 </head>
 <body>
+    {% include 'partials/_loading_screen.html' %}
     <div class="container">
         <h1 class="dm-sans-seven" style="font-size: 2em;">Verify Your Account</h1>
         <form method="post">
@@ -97,5 +99,6 @@
             <button type="submit">Verify</button>
         </form>
     </div>
+    <script src="{% static 'js/theme-toggle.js' %}"></script>
 </body>
 </html>
