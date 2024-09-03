@@ -131,3 +131,17 @@ def top_artists(request):
 
 def light_dark_mode(request):
     return render(request, 'light_dark_mode.html')
+
+@login_required
+def top_albums(request):
+    token_info = request.session.get('token_info', None)
+    sp = spotipy.Spotify(auth=token_info['access_token'])
+
+    results = sp.current_user_saved_albums(limit=10)
+    top_albums = [album['album'] for album in results['items']]
+
+    return render(request, 'top_albums.html', {
+        'top_albums': top_albums,
+        'spotify_logged_in': True,
+        'user_profile': request.session.get('user_profile')
+    })

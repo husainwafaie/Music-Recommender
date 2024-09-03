@@ -3,3 +3,4 @@ musicrecommender/musicrecommender/__pycache__/
 .env
 musicrecommender/.cache
 musicrecommender/musicrecommender/__pycache__/settings.cpython-310.pyc
+musicrecommender/db.sqlite3
