@@ -1,0 +1,265 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Taste</title>
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}"> 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="{% static 'css/global.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #121212; 
+            color: #E5E5E5;
+            font-family: "DM Sans", sans-serif; 
+            margin: 0;
+            padding: 0;
+        }
+
+        .dm-sans-seven {
+            font-family: "DM Sans", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 700;
+            font-style: bold;
+        }
+
+        .dm-sans-five {
+            font-family: "DM Sans", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 500;
+            font-style: medium;
+        }
+
+        .dm-sans-three {
+            font-family: "DM Sans", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 300;
+            font-style: light;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #1E1E1E;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInContainer 0.8s ease-in-out forwards;
+        }
+
+        @keyframes fadeInContainer {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            color: #1DB954;
+            margin-bottom: 20px;
+        }
+
+        
+        @media (max-width: 768px) {
+            table, th, td {
+                font-size: 14px;
+            }
+            h1 {
+                font-size: 2em;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Dark mode variables (default) */
+        :root {
+            --background-color: #121212;
+            --text-color: #E5E5E5;
+            --navbar-background-color: #3b3636;
+            --container-background-color: #1E1E1E;
+            --button-background-color: #1DB954;
+            --button-text-color: #ffffff;
+            --info-background-color: #252525;
+            --first-table-color: #252525;
+            --second-table-color: #333;
+            --third-table-color: #2B2B2B;
+            --border-table-color: #2B2B2B;
+            --hover-row-color: #3B3B3B;
+        }
+
+        /* Light mode variables */
+        body.light-mode {
+            --background-color: #ffffff;
+            --text-color: #121212;
+            --navbar-background-color: #8b8b8b;
+            --container-background-color: #d2d1d1; 
+            --button-background-color: #1DB954;
+            --button-text-color: #ffffff;
+            --info-background-color: #8b8b8b;
+            --first-table-color: #8c8c8c;
+            --second-table-color: #969494;
+            --third-table-color: #b5b5b5;
+            --border-table-color: #a8a5a5;
+            --hover-row-color: #6b6b6b;
+        }
+
+        /* Apply the variables */
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .navbar {
+            background-color: var(--navbar-background-color);
+        }
+
+        .container {
+            background-color: var(--container-background-color);
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Light shadow for light mode */
+        }
+
+        .chart-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 50px;
+        }
+        canvas {
+            background-color: var(--info-background-color);
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .audio-features {
+            text-align: center;
+            margin-top: 50px;
+        }
+        .audio-features h2 {
+            color: #1DB954;
+        }
+        .audio-features p {
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    {% include 'partials/_navbar.html' %}  <!-- Navbar for theme switching -->
+
+    <div class="container">
+        <h1>My Taste Insights</h1>
+
+        <div class="chart-container">
+            <div>
+                <h2>Genre Distribution</h2>
+                <canvas id="genreChart"></canvas>
+            </div>
+            <div>
+                <h2>Listening by Decade</h2>
+                <canvas id="decadeChart"></canvas>
+            </div>
+        </div>
+
+        <div class="audio-features">
+            <h2>Danceability, Energy, & Mood</h2>
+            <p>Average Danceability: {{ avg_danceability|floatformat:2 }}</p>
+            <p>Average Energy: {{ avg_energy|floatformat:2 }}</p>
+            <p>Average Mood (Valence): {{ avg_valence|floatformat:2 }}</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const genreData = JSON.parse('{{ genre_data|escapejs }}');
+        const genreLabels = Object.keys(genreData);
+        const genreValues = Object.values(genreData);
+
+        const decadeData = JSON.parse('{{ decade_data|escapejs }}');
+        const decadeLabels = Object.keys(decadeData);
+        const decadeValues = Object.values(decadeData);
+
+        const ctxGenre = document.getElementById('genreChart').getContext('2d');
+        const genreChart = new Chart(ctxGenre, {
+            type: 'pie',
+            data: {
+                labels: genreLabels,
+                datasets: [{
+                    data: genreValues,
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#66FF33', 
+        '#FF33FF', '#33FF99', '#FF6633']
+                }]
+            },
+            options: {
+                responsive: true, 
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            font: {
+                                size: 18
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        const ctxDecade = document.getElementById('decadeChart').getContext('2d');
+        const decadeChart = new Chart(ctxDecade, {
+            type: 'bar',
+            data: {
+                labels: decadeLabels,
+                datasets: [{
+                    label: 'Number of Songs',
+                    data: decadeValues,
+                    backgroundColor: '#1DB954'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        ticks: {
+                            font: {
+                                size: 16  // Adjust font size for X-axis labels
+                            }
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            font: {
+                                size: 16  // Adjust font size for Y-axis labels
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            font: {
+                                size: 18
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+    <script src="{% static 'js/theme-toggle.js' %}"></script>
+</body>
+</html>

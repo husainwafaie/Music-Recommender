@@ -1,5 +1,7 @@
 import os
 import spotipy
+import json
+import heapq
 from spotipy.oauth2 import SpotifyOAuth
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
@@ -217,4 +219,42 @@ def top_albums(request):
         'top_albums': top_albums,
         'spotify_logged_in': True,
         'user_profile': request.session.get('user_profile')
+    })
+
+@login_required
+def my_taste(request):
+    token_info = request.session.get('token_info', None)
+    sp, user_profile, token_info = get_spotify_client(token_info)
+    
+    # Fetch genre data
+    top_artists = sp.current_user_top_artists(limit=50, time_range='long_term')
+    genre_data = {}
+    for artist in top_artists['items']:
+        for genre in artist['genres']:
+            genre_data[genre] = genre_data.get(genre, 0) + 1
+
+    # Fetch decades data
+    top_tracks = sp.current_user_top_tracks(limit=50, time_range='long_term')
+    decade_data = {}
+    for track in top_tracks['items']:
+        release_year = int(track['album']['release_date'][:4])
+        decade = (release_year // 10) * 10
+        decade_data[decade] = decade_data.get(decade, 0) + 1
+
+    # Danceability, energy, mood
+    track_ids = [track['id'] for track in top_tracks['items']]
+    features = sp.audio_features(track_ids)
+    avg_danceability = sum([f['danceability'] for f in features]) / len(features)
+    avg_energy = sum([f['energy'] for f in features]) / len(features)
+    avg_valence = sum([f['valence'] for f in features]) / len(features)
+
+    genre_data_filtered = dict(sorted(genre_data.items(), key=lambda item: item[1], reverse=True)[:10])
+    return render(request, 'my_taste.html', {
+        'spotify_logged_in': True,
+        'user_profile': user_profile,
+        'genre_data': json.dumps(genre_data_filtered),
+        'decade_data': json.dumps(decade_data),
+        'avg_danceability': avg_danceability,
+        'avg_energy': avg_energy,
+        'avg_valence': avg_valence,
     })
