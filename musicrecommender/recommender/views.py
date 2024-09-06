@@ -258,3 +258,6 @@ def my_taste(request):
         'avg_energy': avg_energy,
         'avg_valence': avg_valence,
     })
+
+def my_info(request):
+    return render(request, "my_info.html")
