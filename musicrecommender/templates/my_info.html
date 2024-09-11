@@ -1,0 +1,101 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Info</title>
+    
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/global.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/2ead0d4761.js" crossorigin="anonymous"></script>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            margin-top: 40px;
+            padding: 40px;
+            background-color: var(--container-background-color);
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: var(--text-color);
+            margin-bottom: 20px;
+        }
+
+        img {
+            max-width: 200px;
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        p {
+            font-size: 1.2em;
+            margin-top: 20px;
+            color: var(--text-color);
+        }
+
+        .fa.fa-envelope-o, .fa-linkedin-square, .fa.fa-github, .fa.fa-instagram, .fab.fa-github-square{
+            font-size: 25pt;
+        }
+
+        .social-icons {
+            text-align: center;
+            margin-top: 32px;
+            display: flex; /* Use flexbox */
+            justify-content: center; /* Center the icons horizontally */
+        }
+
+        .social-icons a {
+            margin: 0 20px; /* Adjusted margin for better spacing */
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .social-icons img {
+            width: auto;
+            height: 2.5em; /* Adjusted height for better visibility */
+        }
+
+    </style>
+</head>
+<body>
+    {% include 'partials/_navbar.html' %}
+
+    <div class="container">
+        <h1>{{ name }}</h1>
+        <img src="{{ image_url }}" alt="Husain Wafaie">
+        <p>{{ bio }}</p>
+        <div class="social-icons">
+            <a class="nav-link" href="mailto:husainwafaie@gmail.com" target="_blank">
+                <i class="fa fa-envelope-o" style="color: var(--text-color);"></i>
+            </a>
+            <a class="nav-link" href="https://www.linkedin.com/in/husain-wafaie/" target="_blank">
+                <i class="fa fa-linkedin-square" style="color: var(--text-color);"></i>
+            </a>
+            <a class="nav-link" href="https://www.github.com/husainwafaie/" target="_blank">
+                <i class="fa fa-github" style="color: var(--text-color);"></i>
+            </a>
+            <a class="nav-link" href="https://www.instagram.com/husainwafaie/" target="_blank">
+                <i class="fa fa-instagram" style="color: var(--text-color);"></i>
+            </a>
+        </div>
+    </div>
+
+    <script src="{% static 'js/theme-toggle.js' %}"></script>
+</body>
+</html>

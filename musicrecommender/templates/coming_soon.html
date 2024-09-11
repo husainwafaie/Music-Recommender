@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coming Soon</title>
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/global.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-family: "DM Sans", sans-serif;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .container {
+            text-align: center;
+            padding: 40px;
+            background-color: var(--container-background-color);
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #1DB954;
+        }
+
+        p {
+            font-size: 1.25rem;
+            margin-bottom: 40px;
+        }
+
+        .button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #1DB954;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #17a44d;
+        }
+    </style>
+</head>
+<body>
+    {% include 'partials/_navbar.html' %}
+
+    <div class="container">
+        <h1>Coming Soon</h1>
+        <p>Stay tuned! Exciting things are coming soon to this page.</p>
+        <a href="{% url 'home' %}" class="button">Go Back Home</a>
+    </div>
+
+    <script src="{% static 'js/theme-toggle.js' %}"></script>
+</body>
+</html>

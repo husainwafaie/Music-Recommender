@@ -14,5 +14,10 @@ urlpatterns = [
     path('top-songs/', views.top_songs, name='top_songs'),
     path('top-artists/', views.top_artists, name='top_artists'),
     path('mode/', views.light_dark_mode, name='mode'),
-    path('top-albums', views.top_albums, name="top_albums")
+    path('top-albums', views.top_albums, name="top_albums"),
+    path('my-info', views.my_info, name="my_info"),
+    path('faq/', views.faq_page, name='faq'),
+    path('mix-now/', views.coming_soon_view, name='mix_now'),
+    path('my-mixes/', views.coming_soon_view, name='my_mixes'),
+    path('ai-guide/', views.coming_soon_view, name='ai_guide')
 ]

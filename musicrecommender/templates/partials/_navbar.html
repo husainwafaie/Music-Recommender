@@ -72,27 +72,26 @@
             </div>
         </li>
         <li class="nav-item">
-            <a href="#" class="dm-sans-seven">A.I. Mixer</a>
+            <a href="{% url 'mix_now' %}" class="dm-sans-seven">A.I. Mixer</a>
             <div class="dropdown-menu">
-                <a href="/page7/" class="dm-sans-five">Mix Now!</a>
-                <a href="/page8/" class="dm-sans-five">My Mixes</a>
-                <a href="/page9/" class="dm-sans-five">A.I. Guide</a>
+                <a href="{% url 'mix_now' %}" class="dm-sans-five">Mix Now!</a>
+                <a href="{% url 'my_mixes' %}" class="dm-sans-five">My Mixes</a>
+                <a href="{% url 'ai_guide' %}" class="dm-sans-five">A.I. Guide</a>
             </div>
         </li>
         <li class="nav-item">
             <a href="#" class="dm-sans-seven">Settings</a>
             <div class="dropdown-menu">
                 <a href="{% url 'mode' %}" class="dm-sans-five">Light/Dark Mode</a>
-                <a href="/page11/" class="dm-sans-five">Usage</a>
                 <a href="/page12/" class="dm-sans-five">Sign Out</a>
             </div>
         </li>
         <li class="nav-item">
             <a href="#" class="dm-sans-seven">Contact</a>
             <div class="dropdown-menu">
-                <a href="/page13/" class="dm-sans-five">FAQ</a>
+                <a href="{% url 'faq' %}" class="dm-sans-five">FAQ</a>
                 <a href="/page13/" class="dm-sans-five">Contact Us</a>
-                <a href="/page14/" class="dm-sans-five">My info</a>
+                <a href="{% url 'my_info' %}" class="dm-sans-five">My info</a>
             </div>
         </li>
     </ul>

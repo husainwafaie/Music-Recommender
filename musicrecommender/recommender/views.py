@@ -258,3 +258,19 @@ def my_taste(request):
         'avg_energy': avg_energy,
         'avg_valence': avg_valence,
     })
+
+def my_info(request):
+    context = {
+        'name': 'Husain Wafaie',
+        'image_url': '/static/assets/Husain-pic.jpg',
+        'bio': 'I am a software developer with a passion for AI, full-stack development, and solving complex problems through technology. I graduated from UC Irvine with a CS major, and I love to explore new technologies and build projects that make an impact.'
+    }
+    return render(request, "my_info.html", context)
+
+@login_required
+def coming_soon_view(request):
+    return render(request, 'coming_soon.html')
+
+@login_required
+def faq_page(request):
+    return render(request, 'faq.html')

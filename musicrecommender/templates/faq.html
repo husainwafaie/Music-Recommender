@@ -1,0 +1,184 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ</title>
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/global.css' %}">
+    <style>
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-family: "DM Sans", sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: var(--container-background-color);
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            color: #1DB954;
+            margin-bottom: 20px;
+        }
+
+        .faq-item {
+            margin-bottom: 10px;
+        }
+
+        .faq-question {
+            background-color: var(--info-background-color);
+            padding: 15px;
+            font-weight: 700;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            padding: 15px;
+            margin-left: 20px;
+            display: none;
+            background-color: var(--container-background-color);
+            color: var(--text-color);
+            border-radius: 0 0 5px 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .faq-question:hover {
+            background-color: #333;
+        }
+
+        .toggle-icon {
+            font-size: 18px;
+            margin-left: 10px;
+        }
+
+        /* Dark/Light mode variables */
+        :root {
+            --background-color: #121212;
+            --text-color: #E5E5E5;
+            --container-background-color: #1E1E1E;
+            --info-background-color: #252525;
+        }
+
+        body.light-mode {
+            --background-color: #ffffff;
+            --text-color: #121212;
+            --container-background-color: #f5f5f5;
+            --info-background-color: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    {% include 'partials/_navbar.html' %}
+    
+    <div class="container">
+        <h1>Frequently Asked Questions</h1>
+        <div class="faq-item">
+            <div class="faq-question">
+                What is SpotAI?
+                <span class="toggle-icon">+</span>
+            </div>
+            <div class="faq-answer">SpotAI is an AI-powered application that enhances your Spotify music experience by analyzing your music preferences, generating personalized playlists, and providing insights into your listening habits.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                How do I log in to SpotAI?
+                <span class="toggle-icon">+</span>
+            </div>
+            <div class="faq-answer">To log in, click the "Login to Spotify" button on the home page and connect your Spotify account. If you do not have an account, you can register through the "Create new account" option.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                What kind of data does SpotAI analyze?
+                <span class="toggle-icon">+</span>
+            </div>
+            <div class="faq-answer">SpotAI analyzes your Spotify listening data, including your top artists, songs, albums, favorite genres, listening habits by decade, and more. It uses this data to offer insights and recommendations tailored to your preferences.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                How does the AI Mixer work?
+                <span class="toggle-icon">+</span>
+            </div>
+            <div class="faq-answer">The AI Mixer feature will generate personalized playlists by analyzing your music preferences and combining them with other factors like mood and energy levels. This feature is coming soon!</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                How is my data used?
+                <span class="toggle-icon">+</span>
+            </div>
+            <div class="faq-answer">SpotAI only uses your Spotify data to personalize your music experience. Your data is not shared with third parties, and you can disconnect your Spotify account at any time.</div>
+        </div>
+
+        <!-- Add more FAQ items as needed -->
+        <div class="faq-item">
+            <div class="faq-question">Can I switch between light and dark mode?<span class="toggle-icon">+</span></div>
+            <div class="faq-answer">Yes, SpotAI allows you to toggle between light and dark mode from the settings page. This theme setting will be applied across all pages.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Why can’t I see the ‘Mix Now’ or ‘My Mixes’ features yet?<span class="toggle-icon">+</span></div>
+            <div class="faq-answer">These features are currently under development and will be available soon. Please check back for updates!</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">How do I reset my password?<span class="toggle-icon">+</span></div>
+            <div class="faq-answer">If you’ve forgotten your password, click on the "Forgotten account?" link on the login page. You will receive an email with instructions to reset your password.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">How do I change my Spotify data preferences?<span class="toggle-icon">+</span></div>
+            <div class="faq-answer">To change the data SpotAI accesses, you can update your Spotify account’s permissions under the Spotify app settings. Once updated, SpotAI will only use the data you've allowed access to.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Who developed SpotAI?<span class="toggle-icon">+</span></div>
+            <div class="faq-answer">SpotAI was developed by Husain Wafaie, a software engineer who specializes in full-stack development and artificial intelligence applications.</div>
+        </div>
+
+    </div>
+
+    <script>
+        const faqItems = document.querySelectorAll('.faq-question');
+
+        faqItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const answer = item.nextElementSibling;
+                const icon = item.querySelector('.toggle-icon');
+
+                if (answer.style.display === 'block') {
+                    answer.style.display = 'none';
+                    icon.textContent = '+';
+                } else {
+                    answer.style.display = 'block';
+                    icon.textContent = '-';
+                }
+            });
+        });
+    </script>
+
+    <script src="{% static 'js/theme-toggle.js' %}"></script>
+</body>
+</html>
