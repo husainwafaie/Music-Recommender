@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.utils.crypto import get_random_string
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
@@ -274,3 +274,10 @@ def coming_soon_view(request):
 @login_required
 def faq_page(request):
     return render(request, 'faq.html')
+
+@login_required
+def logout_view(request):
+    request.session.flush() 
+    logout(request)
+    messages.success(request, 'You have been logged out successfully.')
+    return redirect('index')
