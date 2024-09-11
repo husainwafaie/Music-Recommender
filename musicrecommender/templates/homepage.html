@@ -246,14 +246,14 @@
                 <div class="info-container">
                     <h2>Explore Your Music</h2>
                     <p>Discover your musical taste and insights with SpotAI's personalized recommendations.</p>
-                    <a href="#" class="schedule-button">View My Taste</a>
+                    <a href="{% url 'my_taste' %}" class="schedule-button">View My Taste</a>
                 </div>
     
                 <!-- New Container 2 -->
                 <div class="info-container">
                     <h2>A.I. Mix</h2>
                     <p>Let SpotAI create the perfect mix for you based on your favorite tracks and artists.</p>
-                    <a href="#" class="schedule-button">Explore Now</a>
+                    <a href="{% url 'mix_now' %}" class="schedule-button">Explore Now</a>
                 </div>
             {% else %}
                 <div class="logincontainer" style=" margin-top: 25px;">
