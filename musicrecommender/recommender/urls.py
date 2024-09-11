@@ -17,6 +17,7 @@ urlpatterns = [
     path('top-albums', views.top_albums, name="top_albums"),
     path('my-info', views.my_info, name="my_info"),
     path('faq/', views.faq_page, name='faq'),
+    path("logout/", views.logout_view, name="logout"),
     path('mix-now/', views.coming_soon_view, name='mix_now'),
     path('my-mixes/', views.coming_soon_view, name='my_mixes'),
     path('ai-guide/', views.coming_soon_view, name='ai_guide')
