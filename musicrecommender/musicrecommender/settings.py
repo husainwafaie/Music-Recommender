@@ -145,4 +145,6 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587 
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'wafaiehusain@gmail.com'
+DEFAULT_FROM_EMAIL = 'wafaiehusain@gmail.com'
+SERVER_EMAIL = 'wafaiehusain@gmail.com'
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD')

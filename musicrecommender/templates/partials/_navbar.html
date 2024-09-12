@@ -59,7 +59,7 @@
             <a href="{% url 'home' %}" class="dm-sans-seven">Home</a>
             <div class="dropdown-menu">
                 <a href="{% url 'home' %}" class="dm-sans-five">Home Page</a>
-                <a href="/page2/" class="dm-sans-five">Guide</a>
+                <a href="{% url 'guide' %}" class="dm-sans-five">Guide</a>
             </div>
         </li>
         <li class="nav-item">
@@ -80,17 +80,17 @@
             </div>
         </li>
         <li class="nav-item">
-            <a href="#" class="dm-sans-seven">Settings</a>
+            <a class="dm-sans-seven">Settings</a>
             <div class="dropdown-menu">
                 <a href="{% url 'mode' %}" class="dm-sans-five">Light/Dark Mode</a>
                 <a href="{% url 'logout' %}" class="dm-sans-five">Sign Out</a>
             </div>
         </li>
         <li class="nav-item">
-            <a href="#" class="dm-sans-seven">Contact</a>
+            <a class="dm-sans-seven">Contact</a>
             <div class="dropdown-menu">
                 <a href="{% url 'faq' %}" class="dm-sans-five">FAQ</a>
-                <a href="/page13/" class="dm-sans-five">Contact Us</a>
+                <a href="{% url 'contact_us' %}" class="dm-sans-five">Contact Us</a>
                 <a href="{% url 'my_info' %}" class="dm-sans-five">My info</a>
             </div>
         </li>
