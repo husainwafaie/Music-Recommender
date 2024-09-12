@@ -1,17 +1,27 @@
 import os
 import spotipy
 import json
-import heapq
 from spotipy.oauth2 import SpotifyOAuth
 from django.contrib.auth.models import User
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMessage
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.utils.crypto import get_random_string
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
+from functools import wraps
 
+
+# Decorator to check if the user is authenticated with Spotify
+def spotify_login_required(view_func):
+    @wraps(view_func)
+    def _wrapped_view(request, *args, **kwargs):
+        token_info = request.session.get('token_info')
+        if not token_info:
+            return redirect('home')  # Redirect to home page if not logged in to Spotify
+        return view_func(request, *args, **kwargs)
+    return _wrapped_view
 
 
 def register_view(request):
@@ -166,6 +176,7 @@ def spotify_callback(request):
     return redirect(mainpage)
 
 @login_required
+@spotify_login_required
 def top_songs(request):
     token_info = request.session.get('token_info', None)
     theme = request.session.get('theme', 'dark')
@@ -188,6 +199,7 @@ def top_songs(request):
     })
 
 @login_required
+@spotify_login_required
 def top_artists(request):
     token_info = request.session.get('token_info', None)
     theme = request.session.get('theme', 'dark')
@@ -208,20 +220,22 @@ def light_dark_mode(request):
     return render(request, 'light_dark_mode.html')
 
 @login_required
+@spotify_login_required
 def top_albums(request):
     token_info = request.session.get('token_info', None)
     sp = spotipy.Spotify(auth=token_info['access_token'])
-
+    sp, user_profile, token_info = get_spotify_client(token_info)
     results = sp.current_user_saved_albums(limit=10)
     top_albums = [album['album'] for album in results['items']]
 
     return render(request, 'top_albums.html', {
         'top_albums': top_albums,
         'spotify_logged_in': True,
-        'user_profile': request.session.get('user_profile')
+        'user_profile': user_profile
     })
 
 @login_required
+@spotify_login_required
 def my_taste(request):
     token_info = request.session.get('token_info', None)
     sp, user_profile, token_info = get_spotify_client(token_info)
@@ -268,6 +282,7 @@ def my_info(request):
     return render(request, "my_info.html", context)
 
 @login_required
+@spotify_login_required
 def coming_soon_view(request):
     return render(request, 'coming_soon.html')
 
@@ -281,3 +296,30 @@ def logout_view(request):
     logout(request)
     messages.success(request, 'You have been logged out successfully.')
     return redirect('index')
+
+def guide_view(request):
+    return render(request, 'guide.html')
+
+def contact_us_view(request):
+    if request.method == 'POST':
+        name = request.POST['name']
+        email = request.POST['email']
+        subject = request.POST['subject']
+        message = request.POST['message']
+
+        try:
+            """send_mail(
+                subject=f"{subject} (From: {name}, {email})",
+                message=message,
+                from_email=email,
+                recipient_list=['husainwafaie@gmail.com'],
+                fail_silently=False,
+            )"""
+            msg = EmailMessage(subject,
+                       f'From {name} the email is {email} and {message}', to=['husainwafaie@gmail.com'])
+            msg.send()
+            messages.success(request, 'Your message has been sent successfully!')
+        except:
+            messages.error(request, 'There was an error sending your message. Please try again.')
+
+    return render(request, 'contact_us.html')
