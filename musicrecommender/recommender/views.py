@@ -308,6 +308,7 @@ def contact_us_view(request):
                 fail_silently=False,
             )
             messages.success(request, 'Your message has been sent successfully!')
+            return redirect('contact_us')
         except Exception as e:
             messages.error(request, f'There was an error sending your message: {str(e)}')
 

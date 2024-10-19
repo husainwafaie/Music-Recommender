@@ -82,6 +82,44 @@
         .error-message {
             color: red;
         }
+
+        .message-popup {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            display: none;
+            z-index: 1000;
+        }
+
+        .success-popup {
+            background-color: #28a745;
+        }
+
+        .error-popup {
+            background-color: #dc3545;
+        }
+
+        .message-container {
+            width: 100%;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .success-message {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .error-message {
+            background-color: #dc3545;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -89,6 +127,15 @@
 
     <div class="container">
         <h1>Contact Us</h1>
+        
+        {% if messages %}
+            {% for message in messages %}
+                <div class="message-container {% if message.tags %}{{ message.tags }}-message{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
         <form id="contactForm" method="post">
             {% csrf_token %}
             <label for="name">Name</label>
@@ -105,16 +152,17 @@
 
             <button type="submit">Send Message</button>
         </form>
-
-        {% if messages %}
-            {% for message in messages %}
-                <div class="{% if message.tags %}{{ message.tags }}{% endif %}-message">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
     </div>
 
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var messageContainer = document.querySelector('.message-container');
+            if (messageContainer) {
+                setTimeout(function() {
+                    messageContainer.style.display = 'none';
+                }, 5000);
+            }
+        });
+    </script>
 </body>
 </html>
