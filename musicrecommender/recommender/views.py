@@ -275,7 +275,14 @@ def my_info(request):
     context = {
         'name': 'Husain Wafaie',
         'image_url': '/static/assets/Husain-pic.jpg',
-        'bio': 'I am a software developer with a passion for AI, full-stack development, and solving complex problems through technology. I graduated from UC Irvine with a CS major, and I love to explore new technologies and build projects that make an impact.'
+        'bio': """
+        I am a software developer with a passion for AI, 
+        full-stack development, and solving complex problems 
+        through technology. 
+        I graduated from UC Irvine with a CS major, and I love 
+        to explore 
+        new technologies and build projects that make an impact.
+        """
     }
     return render(request, "my_info.html", context)
 
@@ -366,7 +373,7 @@ def is_password_valid(password):
     has_uppercase = any(char.isupper() for char in password)
     has_lowercase = any(char.islower() for char in password)
     has_number = any(char.isdigit() for char in password)
-    has_special_char = any(char in "@$!%*?&" for char in password)
+    has_special_char = any(char in "@$!%*?&#" for char in password)
 
     if len(password) < min_length:
         return False, "Password must be at least 8 characters long"
