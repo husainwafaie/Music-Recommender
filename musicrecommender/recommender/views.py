@@ -11,6 +11,9 @@ from django.utils.crypto import get_random_string
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
 from functools import wraps
+import re
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 
 # decorator to check if the user is authenticated with spotify
@@ -317,3 +320,95 @@ def contact_us_view(request):
         return redirect('contact_us')
 
     return render(request, 'contact_us.html')
+
+@csrf_exempt
+def send_reset_otp(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        email = data.get('email')
+        
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return JsonResponse({'success': False, 'message': 'No account found with this email.'})
+        
+        otp = get_random_string(length=6, allowed_chars='0123456789')
+        request.session['reset_otp'] = otp
+        request.session['reset_email'] = email
+        
+        send_mail(
+            'Password Reset OTP',
+            f'Your OTP for password reset is: {otp}',
+            'noreply@spotai.com',
+            [email],
+            fail_silently=False,
+        )
+        
+        return JsonResponse({'success': True, 'message': 'OTP sent successfully.'})
+    
+    return JsonResponse({'success': False, 'message': 'Invalid request method.'})
+
+@csrf_exempt
+def verify_reset_otp(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        otp = data.get('otp')
+        
+        if otp == request.session.get('reset_otp'):
+            return JsonResponse({'success': True, 'message': 'OTP verified successfully.'})
+        else:
+            return JsonResponse({'success': False, 'message': 'Invalid OTP.'})
+    
+    return JsonResponse({'success': False, 'message': 'Invalid request method.'})
+
+def is_password_valid(password):
+    min_length = 8
+    has_uppercase = any(char.isupper() for char in password)
+    has_lowercase = any(char.islower() for char in password)
+    has_number = any(char.isdigit() for char in password)
+    has_special_char = any(char in "@$!%*?&" for char in password)
+
+    if len(password) < min_length:
+        return False, "Password must be at least 8 characters long"
+    if not has_uppercase:
+        return False, "Password must contain at least one uppercase letter"
+    if not has_lowercase:
+        return False, "Password must contain at least one lowercase letter"
+    if not has_number:
+        return False, "Password must contain at least one number"
+    if not has_special_char:
+        return False, "Password must contain at least one special character (@$!%*?&)"
+
+    return True, ""
+
+@csrf_exempt
+def reset_password(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        new_password = data.get('new_password')
+        confirm_password = data.get('confirm_password')
+        
+        if new_password != confirm_password:
+            return JsonResponse({'success': False, 'message': 'Passwords do not match.'})
+        
+        is_valid, error_message = is_password_valid(new_password)
+        if not is_valid:
+            return JsonResponse({'success': False, 'message': error_message})
+        
+        email = request.session.get('reset_email')
+        if not email:
+            return JsonResponse({'success': False, 'message': 'Session expired. Please start over or refresh the page.'})
+        
+        try:
+            user = User.objects.get(email=email)
+            user.set_password(new_password)
+            user.save()
+            
+            del request.session['reset_otp']
+            del request.session['reset_email']
+            
+            return JsonResponse({'success': True, 'message': 'Password reset successfully.'})
+        except User.DoesNotExist:
+            return JsonResponse({'success': False, 'message': 'User not found.'})
+    
+    return JsonResponse({'success': False, 'message': 'Invalid request method.'})
