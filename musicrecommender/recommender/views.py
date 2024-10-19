@@ -397,14 +397,13 @@ def reset_password(request):
         
         email = request.session.get('reset_email')
         if not email:
-            return JsonResponse({'success': False, 'message': 'Session expired. Please start over.'})
+            return JsonResponse({'success': False, 'message': 'Session expired. Please start over or refresh the page.'})
         
         try:
             user = User.objects.get(email=email)
             user.set_password(new_password)
             user.save()
             
-            # Clear session data
             del request.session['reset_otp']
             del request.session['reset_email']
             
