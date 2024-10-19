@@ -13,13 +13,13 @@ from django.contrib.auth.forms import AuthenticationForm
 from functools import wraps
 
 
-# Decorator to check if the user is authenticated with Spotify
+# decorator to check if the user is authenticated with Spotify
 def spotify_login_required(view_func):
     @wraps(view_func)
     def _wrapped_view(request, *args, **kwargs):
         token_info = request.session.get('token_info')
         if not token_info:
-            return redirect('home')  # Redirect to home page if not logged in to Spotify
+            return redirect('home')  # redirect to home page if not logged in to Spotify
         return view_func(request, *args, **kwargs)
     return _wrapped_view
 
@@ -38,7 +38,6 @@ def register_view(request):
                 messages.error(request, 'Email already registered')
             else:
 
-                # Generate OTP and send email
                 otp = get_random_string(length=6, allowed_chars='0123456789')
                 request.session['otp'] = otp
                 request.session['username'] = username
@@ -67,20 +66,17 @@ def verify_otp_view(request):
         if otp == request.session.get('otp'):
             user_data = request.session.get('user_data')
             if user_data:
-                # Create the user only after OTP is verified
                 user = User.objects.create_user(
                     username=user_data['username'],
                     email=user_data['email'],
                     password=user_data['password']
                 )
-                user.is_active = True  # Activate the user account
+                user.is_active = True 
                 user.save()
 
-                # Log the user in
                 login(request, user)
                 messages.success(request, 'Account verified successfully!')
 
-                # Clean up session
                 request.session.pop('otp', None)
                 request.session.pop('user_data', None)
 
@@ -135,7 +131,6 @@ def mainpage(request):
             redirect_uri=os.getenv('SPOTIPY_REDIRECT_URI')
         )
         
-        # Refresh token if necessary
         if sp_oauth.is_token_expired(token_info):
             token_info = sp_oauth.refresh_access_token(token_info['refresh_token'])
             request.session['token_info'] = token_info
@@ -240,14 +235,12 @@ def my_taste(request):
     token_info = request.session.get('token_info', None)
     sp, user_profile, token_info = get_spotify_client(token_info)
     
-    # Fetch genre data
     top_artists = sp.current_user_top_artists(limit=50, time_range='long_term')
     genre_data = {}
     for artist in top_artists['items']:
         for genre in artist['genres']:
             genre_data[genre] = genre_data.get(genre, 0) + 1
 
-    # Fetch decades data
     top_tracks = sp.current_user_top_tracks(limit=50, time_range='long_term')
     decade_data = {}
     for track in top_tracks['items']:
@@ -255,7 +248,6 @@ def my_taste(request):
         decade = (release_year // 10) * 10
         decade_data[decade] = decade_data.get(decade, 0) + 1
 
-    # Danceability, energy, mood
     track_ids = [track['id'] for track in top_tracks['items']]
     features = sp.audio_features(track_ids)
     avg_danceability = sum([f['danceability'] for f in features]) / len(features)
@@ -308,18 +300,17 @@ def contact_us_view(request):
         message = request.POST['message']
 
         try:
-            """send_mail(
+            send_mail(
                 subject=f"{subject} (From: {name}, {email})",
                 message=message,
                 from_email=email,
                 recipient_list=['husainwafaie@gmail.com'],
                 fail_silently=False,
-            )"""
-            msg = EmailMessage(subject,
-                       f'From {name} the email is {email} and {message}', to=['husainwafaie@gmail.com'])
-            msg.send()
+            )
             messages.success(request, 'Your message has been sent successfully!')
-        except:
-            messages.error(request, 'There was an error sending your message. Please try again.')
+        except Exception as e:
+            messages.error(request, f'There was an error sending your message: {str(e)}')
+        
+        return redirect('contact_us')
 
     return render(request, 'contact_us.html')

@@ -82,6 +82,45 @@
         .error-message {
             color: red;
         }
+
+        .message-popup {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            display: none;
+            z-index: 1000;
+        }
+
+        .success-popup {
+            background-color: #28a745;
+        }
+
+        .error-popup {
+            background-color: #dc3545;
+        }
+
+        .message-container {
+            width: 95%;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            display: block;
+        }
+
+        .success-message {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .error-message {
+            background-color: #dc3545;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -89,6 +128,15 @@
 
     <div class="container">
         <h1>Contact Us</h1>
+        
+        {% if messages %}
+            {% for message in messages %}
+                <div class="message-container {% if message.tags %}{{ message.tags }}-message{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
         <form id="contactForm" method="post">
             {% csrf_token %}
             <label for="name">Name</label>
@@ -105,19 +153,23 @@
 
             <button type="submit">Send Message</button>
         </form>
-
-        <div class="success-message">Your message has been sent successfully!</div>
-        <div class="error-message">There was an error sending your message. Please try again.</div>
     </div>
 
     <script>
-        document.getElementById('contactForm').addEventListener('submit', function(event) {
-            event.preventDefault();  // Prevent form from submitting normally
-
-            // Add logic here to send form data using AJAX or Django's form submission
-
-            // Show success or error message based on response
-            document.querySelector('.success-message').style.display = 'block';
+        document.addEventListener('DOMContentLoaded', function() {
+            var messageContainers = document.querySelectorAll('.message-container');
+            messageContainers.forEach(function(container) {
+                setTimeout(function() {
+                    container.style.opacity = '1';
+                    container.style.transition = 'opacity 0.5s ease-out';
+                    setTimeout(function() {
+                        container.style.opacity = '0';
+                        setTimeout(function() {
+                            container.style.display = 'none';
+                        }, 500);
+                    }, 4500);
+                }, 0);
+            });
         });
     </script>
 </body>
