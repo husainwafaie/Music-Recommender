@@ -13,7 +13,7 @@
     <style>
 
         body {
-            background-color: #1DB954; /* Keeping your application's background color */
+            background-color: #1DB954;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -56,7 +56,7 @@
         .container h1 {
             font-size: 24px;
             font-weight: 700;
-            color: #1DB954; /* Using your application's primary color */
+            color: #1DB954;
             margin-bottom: 20px;
         }
 
@@ -93,19 +93,19 @@
             width: 100%;
             border-radius: 6px;
             border: none;
-            background-color: #1DB954; /* Your application's primary color */
+            background-color: #1DB954;
             color: white;
             cursor: pointer;
             margin-bottom: 20px;
         }
 
         button:hover {
-            background-color: #17a44d; /* Slightly darker shade for hover effect */
+            background-color: #17a44d;
         }
 
         .forgot-password {
             font-size: 14px;
-            color: #1DB954; /* Your application's primary color */
+            color: #1DB954;
             text-decoration: none;
             margin-bottom: 20px;
         }
@@ -148,6 +148,35 @@
             background-color: #e0e0e0;
         }
 
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 20px;
+            text-align: left;
+            width: 100%;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .modal-content input {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .modal-content button {
+            width: 100%;
+        }
+
     </style>
 </head>
 <body>
@@ -160,6 +189,7 @@
             <label for="username">Log in to SpotAI</label>
             <input type="text" id="username" name="username" placeholder="Username">
             <input type="password" id="password" name="password" placeholder="Password">
+            <div id="login-error" class="error-message" style="display:none;"></div>
             <button type="submit">Log in</button>
         </form>
         <a href="#" class="forgot-password" onclick="showForgotPasswordModal()">Forgotten account?</a>
@@ -177,15 +207,18 @@
             <h2>Reset Password</h2>
             <div id="emailStep">
                 <input type="email" id="resetEmail" placeholder="Enter your email">
+                <div id="email-error" class="error-message" style="display:none;"></div>
                 <button onclick="sendResetOTP()">Send OTP</button>
             </div>
             <div id="otpStep" style="display: none;">
                 <input type="text" id="resetOTP" placeholder="Enter OTP">
+                <div id="otp-error" class="error-message" style="display:none;"></div>
                 <button onclick="verifyOTP()">Verify OTP</button>
             </div>
             <div id="passwordStep" style="display: none;">
                 <input type="password" id="newPassword" placeholder="New password">
                 <input type="password" id="confirmPassword" placeholder="Confirm password">
+                <div id="password-error" class="error-message" style="display:none;"></div>
                 <p id="passwordConstraints">
                     Password must contain:
                     <br>- At least 8 characters
@@ -220,7 +253,9 @@
                 document.getElementById('emailStep').style.display = 'none';
                 document.getElementById('otpStep').style.display = 'block';
             } else {
-                alert(data.message);
+                const errorElement = document.getElementById('email-error');
+                errorElement.textContent = data.message;
+                errorElement.style.display = 'block';
             }
         });
     }
@@ -241,7 +276,9 @@
                 document.getElementById('otpStep').style.display = 'none';
                 document.getElementById('passwordStep').style.display = 'block';
             } else {
-                alert(data.message);
+                const errorElement = document.getElementById('otp-error');
+                errorElement.textContent = data.message;
+                errorElement.style.display = 'block';
             }
         });
     }
@@ -249,14 +286,18 @@
     function resetPassword() {
         const newPassword = document.getElementById('newPassword').value;
         const confirmPassword = document.getElementById('confirmPassword').value;
+        const errorElement = document.getElementById('password-error');
         
         if (newPassword !== confirmPassword) {
-            alert("Passwords do not match");
+            errorElement.textContent = "Passwords do not match";
+            errorElement.style.display = 'block';
             return;
         }
         
-        if (!isPasswordValid(newPassword)) {
-            alert("Password does not meet the requirements");
+        const validationResult = isPasswordValid(newPassword);
+        if (!validationResult.isValid) {
+            errorElement.textContent = validationResult.message;
+            errorElement.style.display = 'block';
             return;
         }
         
@@ -274,17 +315,42 @@
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                alert("Password reset successfully");
                 document.getElementById('forgotPasswordModal').style.display = 'none';
+                const loginError = document.getElementById('login-error');
+                loginError.textContent = "Password reset successfully. Please log in with your new password.";
+                loginError.style.display = 'block';
+                loginError.style.color = 'green';
             } else {
-                alert(data.message);
+                errorElement.textContent = data.message;
+                errorElement.style.display = 'block';
             }
         });
     }
 
     function isPasswordValid(password) {
-        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-        return regex.test(password);
+        const minLength = 8;
+        const hasUppercase = /[A-Z]/.test(password);
+        const hasLowercase = /[a-z]/.test(password);
+        const hasNumber = /\d/.test(password);
+        const hasSpecialChar = /[@$!%*?&#]/.test(password);
+
+        if (password.length < minLength) {
+            return { isValid: false, message: "Password must be at least 8 characters long" };
+        }
+        if (!hasUppercase) {
+            return { isValid: false, message: "Password must contain at least one uppercase letter" };
+        }
+        if (!hasLowercase) {
+            return { isValid: false, message: "Password must contain at least one lowercase letter" };
+        }
+        if (!hasNumber) {
+            return { isValid: false, message: "Password must contain at least one number" };
+        }
+        if (!hasSpecialChar) {
+            return { isValid: false, message: "Password must contain at least one special character (@$!%*?&)" };
+        }
+
+        return { isValid: true, message: "" };
     }
 
     document.getElementsByClassName("close")[0].onclick = function() {

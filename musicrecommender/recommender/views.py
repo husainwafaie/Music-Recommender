@@ -361,6 +361,26 @@ def verify_reset_otp(request):
     
     return JsonResponse({'success': False, 'message': 'Invalid request method.'})
 
+def is_password_valid(password):
+    min_length = 8
+    has_uppercase = any(char.isupper() for char in password)
+    has_lowercase = any(char.islower() for char in password)
+    has_number = any(char.isdigit() for char in password)
+    has_special_char = any(char in "@$!%*?&" for char in password)
+
+    if len(password) < min_length:
+        return False, "Password must be at least 8 characters long"
+    if not has_uppercase:
+        return False, "Password must contain at least one uppercase letter"
+    if not has_lowercase:
+        return False, "Password must contain at least one lowercase letter"
+    if not has_number:
+        return False, "Password must contain at least one number"
+    if not has_special_char:
+        return False, "Password must contain at least one special character (@$!%*?&)"
+
+    return True, ""
+
 @csrf_exempt
 def reset_password(request):
     if request.method == 'POST':
@@ -371,8 +391,9 @@ def reset_password(request):
         if new_password != confirm_password:
             return JsonResponse({'success': False, 'message': 'Passwords do not match.'})
         
-        if not is_password_valid(new_password):
-            return JsonResponse({'success': False, 'message': 'Password does not meet the requirements.'})
+        is_valid, error_message = is_password_valid(new_password)
+        if not is_valid:
+            return JsonResponse({'success': False, 'message': error_message})
         
         email = request.session.get('reset_email')
         if not email:
@@ -392,8 +413,3 @@ def reset_password(request):
             return JsonResponse({'success': False, 'message': 'User not found.'})
     
     return JsonResponse({'success': False, 'message': 'Invalid request method.'})
-
-def is_password_valid(password):
-    # At least 8 characters, 1 uppercase, 1 lowercase, 1 number, 1 special character
-    pattern = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$'
-    return re.match(pattern, password) is not None
