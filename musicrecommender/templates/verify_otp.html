@@ -96,6 +96,11 @@
             {% csrf_token %}
             <label for="otp">Enter OTP</label>
             <input type="text" id="otp" name="otp" placeholder="Enter the OTP sent to your email" required>
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="error-message">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
             <button type="submit">Verify</button>
         </form>
     </div>

@@ -106,19 +106,15 @@
             <button type="submit">Send Message</button>
         </form>
 
-        <div class="success-message">Your message has been sent successfully!</div>
-        <div class="error-message">There was an error sending your message. Please try again.</div>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="{% if message.tags %}{{ message.tags }}{% endif %}-message">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
     </div>
 
-    <script>
-        document.getElementById('contactForm').addEventListener('submit', function(event) {
-            event.preventDefault();  // Prevent form from submitting normally
 
-            // Add logic here to send form data using AJAX or Django's form submission
-
-            // Show success or error message based on response
-            document.querySelector('.success-message').style.display = 'block';
-        });
-    </script>
 </body>
 </html>
