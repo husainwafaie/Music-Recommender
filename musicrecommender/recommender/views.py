@@ -104,6 +104,8 @@ def get_spotify_client(token_info):
     return sp, user_profile, token_info
 
 def index(request):
+    if request.user.is_authenticated:
+        return redirect('home')
     return redirect(login_view)
 
 def login_view(request):
@@ -168,7 +170,7 @@ def spotify_callback(request):
     token_info = sp_oauth.get_access_token(code)
     request.session['token_info'] = token_info
     
-    return redirect(mainpage)
+    return redirect('home')
 
 @login_required
 @spotify_login_required
