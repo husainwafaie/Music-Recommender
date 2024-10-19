@@ -16,8 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from recommender import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", include('recommender.urls'))
+    path("", include('recommender.urls')),
+    path('send_reset_otp/', views.send_reset_otp, name='send_reset_otp'),
+    path('verify_reset_otp/', views.verify_reset_otp, name='verify_reset_otp'),
+    path('reset_password/', views.reset_password, name='reset_password'),
 ]

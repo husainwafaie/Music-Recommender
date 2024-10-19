@@ -11,6 +11,9 @@ from django.utils.crypto import get_random_string
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
 from functools import wraps
+import re
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 
 # decorator to check if the user is authenticated with spotify
@@ -317,3 +320,80 @@ def contact_us_view(request):
         return redirect('contact_us')
 
     return render(request, 'contact_us.html')
+
+@csrf_exempt
+def send_reset_otp(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        email = data.get('email')
+        
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return JsonResponse({'success': False, 'message': 'No account found with this email.'})
+        
+        otp = get_random_string(length=6, allowed_chars='0123456789')
+        request.session['reset_otp'] = otp
+        request.session['reset_email'] = email
+        
+        send_mail(
+            'Password Reset OTP',
+            f'Your OTP for password reset is: {otp}',
+            'noreply@spotai.com',
+            [email],
+            fail_silently=False,
+        )
+        
+        return JsonResponse({'success': True, 'message': 'OTP sent successfully.'})
+    
+    return JsonResponse({'success': False, 'message': 'Invalid request method.'})
+
+@csrf_exempt
+def verify_reset_otp(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        otp = data.get('otp')
+        
+        if otp == request.session.get('reset_otp'):
+            return JsonResponse({'success': True, 'message': 'OTP verified successfully.'})
+        else:
+            return JsonResponse({'success': False, 'message': 'Invalid OTP.'})
+    
+    return JsonResponse({'success': False, 'message': 'Invalid request method.'})
+
+@csrf_exempt
+def reset_password(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        new_password = data.get('new_password')
+        confirm_password = data.get('confirm_password')
+        
+        if new_password != confirm_password:
+            return JsonResponse({'success': False, 'message': 'Passwords do not match.'})
+        
+        if not is_password_valid(new_password):
+            return JsonResponse({'success': False, 'message': 'Password does not meet the requirements.'})
+        
+        email = request.session.get('reset_email')
+        if not email:
+            return JsonResponse({'success': False, 'message': 'Session expired. Please start over.'})
+        
+        try:
+            user = User.objects.get(email=email)
+            user.set_password(new_password)
+            user.save()
+            
+            # Clear session data
+            del request.session['reset_otp']
+            del request.session['reset_email']
+            
+            return JsonResponse({'success': True, 'message': 'Password reset successfully.'})
+        except User.DoesNotExist:
+            return JsonResponse({'success': False, 'message': 'User not found.'})
+    
+    return JsonResponse({'success': False, 'message': 'Invalid request method.'})
+
+def is_password_valid(password):
+    # At least 8 characters, 1 uppercase, 1 lowercase, 1 number, 1 special character
+    pattern = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$'
+    return re.match(pattern, password) is not None

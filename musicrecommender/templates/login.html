@@ -139,13 +139,13 @@
             width: 100%;
             border-radius: 6px;
             border: none;
-            background-color: #f2f2f2; /* Neutral color for the secondary button */
+            background-color: #f2f2f2;
             color: #000;
             cursor: pointer;
         }
 
         .create-account:hover {
-            background-color: #e0e0e0; /* Slightly darker shade for hover effect */
+            background-color: #e0e0e0;
         }
 
     </style>
@@ -162,7 +162,7 @@
             <input type="password" id="password" name="password" placeholder="Password">
             <button type="submit">Log in</button>
         </form>
-        <a href="#" class="forgot-password">Forgotten account?</a>
+        <a href="#" class="forgot-password" onclick="showForgotPasswordModal()">Forgotten account?</a>
         <div class="divider">
             <span class="divider-text">or</span>
         </div>
@@ -170,5 +170,169 @@
     </div>
 
     <script src="{% static 'js/theme-toggle.js' %}"></script>
+
+    <div id="forgotPasswordModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Reset Password</h2>
+            <div id="emailStep">
+                <input type="email" id="resetEmail" placeholder="Enter your email">
+                <button onclick="sendResetOTP()">Send OTP</button>
+            </div>
+            <div id="otpStep" style="display: none;">
+                <input type="text" id="resetOTP" placeholder="Enter OTP">
+                <button onclick="verifyOTP()">Verify OTP</button>
+            </div>
+            <div id="passwordStep" style="display: none;">
+                <input type="password" id="newPassword" placeholder="New password">
+                <input type="password" id="confirmPassword" placeholder="Confirm password">
+                <p id="passwordConstraints">
+                    Password must contain:
+                    <br>- At least 8 characters
+                    <br>- 1 uppercase letter
+                    <br>- 1 lowercase letter
+                    <br>- 1 number
+                    <br>- 1 special character
+                </p>
+                <button onclick="resetPassword()">Reset Password</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    function showForgotPasswordModal() {
+        document.getElementById('forgotPasswordModal').style.display = 'block';
+    }
+
+    function sendResetOTP() {
+        const email = document.getElementById('resetEmail').value;
+        fetch('/send_reset_otp/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({ email: email })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById('emailStep').style.display = 'none';
+                document.getElementById('otpStep').style.display = 'block';
+            } else {
+                alert(data.message);
+            }
+        });
+    }
+
+    function verifyOTP() {
+        const otp = document.getElementById('resetOTP').value;
+        fetch('/verify_reset_otp/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({ otp: otp })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById('otpStep').style.display = 'none';
+                document.getElementById('passwordStep').style.display = 'block';
+            } else {
+                alert(data.message);
+            }
+        });
+    }
+
+    function resetPassword() {
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        
+        if (newPassword !== confirmPassword) {
+            alert("Passwords do not match");
+            return;
+        }
+        
+        if (!isPasswordValid(newPassword)) {
+            alert("Password does not meet the requirements");
+            return;
+        }
+        
+        fetch('/reset_password/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({ 
+                new_password: newPassword,
+                confirm_password: confirmPassword
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Password reset successfully");
+                document.getElementById('forgotPasswordModal').style.display = 'none';
+            } else {
+                alert(data.message);
+            }
+        });
+    }
+
+    function isPasswordValid(password) {
+        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        return regex.test(password);
+    }
+
+    document.getElementsByClassName("close")[0].onclick = function() {
+        document.getElementById('forgotPasswordModal').style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == document.getElementById('forgotPasswordModal')) {
+            document.getElementById('forgotPasswordModal').style.display = "none";
+        }
+    }
+    </script>
+
+    <style>
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4);
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 400px;
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    </style>
 </body>
 </html>
