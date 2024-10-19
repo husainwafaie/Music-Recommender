@@ -13,7 +13,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from functools import wraps
 
 
-# decorator to check if the user is authenticated with Spotify
+# decorator to check if the user is authenticated with spotify
 def spotify_login_required(view_func):
     @wraps(view_func)
     def _wrapped_view(request, *args, **kwargs):
@@ -104,6 +104,7 @@ def get_spotify_client(token_info):
     return sp, user_profile, token_info
 
 def index(request):
+    list(messages.get_messages(request)) # to reset my messages
     if request.user.is_authenticated:
         return redirect('home')
     return redirect(login_view)
