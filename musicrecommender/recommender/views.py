@@ -366,7 +366,7 @@ def is_password_valid(password):
     has_uppercase = any(char.isupper() for char in password)
     has_lowercase = any(char.islower() for char in password)
     has_number = any(char.isdigit() for char in password)
-    has_special_char = any(char in "@$!%*?&" for char in password)
+    has_special_char = any(char in "@$!%*?&#" for char in password)
 
     if len(password) < min_length:
         return False, "Password must be at least 8 characters long"
