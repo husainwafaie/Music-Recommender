@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* Similar styling as login page */
+        
         body {
             background-color: #1DB954;
             display: flex;
@@ -133,7 +133,7 @@
             const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
 
             if (password1 !== password2 || !passwordRegex.test(password1)) {
-                event.preventDefault(); // Prevent form submission
+                event.preventDefault();
                 if (passwordError) {
                     passwordError.style.display = 'block';
                     passwordError.innerText = 'Passwords do not match or do not meet the required constraints.';

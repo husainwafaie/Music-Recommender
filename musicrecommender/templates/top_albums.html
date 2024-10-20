@@ -163,7 +163,6 @@
             animation-delay: 1.9s;
         }
 
-        /* Dark mode variables (default) */
         :root {
             --background-color: #121212;
             --text-color: #E5E5E5;
@@ -179,7 +178,6 @@
             --hover-row-color: #3B3B3B;
         }
 
-        /* Light mode variables */
         body.light-mode {
             --background-color: #ffffff;
             --text-color: #121212;
@@ -195,7 +193,6 @@
             --hover-row-color: #6b6b6b;
         }
 
-        /* Apply the variables */
         body {
             background-color: var(--background-color);
             color: var(--text-color);
@@ -248,7 +245,7 @@
     </style>
 </head>
 <body>
-    {% include 'partials/_navbar.html' %}  <!-- Include the navbar -->
+    {% include 'partials/_navbar.html' %} 
 
     <div class="container">
         <h1 class="dm-sans-seven">Your Top 10 Albums</h1>

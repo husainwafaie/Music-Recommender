@@ -85,7 +85,6 @@
             }
         }
 
-        /* Dark mode variables (default) */
         :root {
             --background-color: #121212;
             --text-color: #E5E5E5;
@@ -101,7 +100,6 @@
             --hover-row-color: #3B3B3B;
         }
 
-        /* Light mode variables */
         body.light-mode {
             --background-color: #ffffff;
             --text-color: #121212;
@@ -117,7 +115,6 @@
             --hover-row-color: #6b6b6b;
         }
 
-        /* Apply the variables */
         body {
             background-color: var(--background-color);
             color: var(--text-color);
@@ -131,7 +128,7 @@
         .container {
             background-color: var(--container-background-color);
             border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Light shadow for light mode */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); 
         }
 
         .chart-container {
@@ -157,7 +154,7 @@
     </style>
 </head>
 <body>
-    {% include 'partials/_navbar.html' %}  <!-- Navbar for theme switching -->
+    {% include 'partials/_navbar.html' %}
 
     <div class="container">
         <h1>My Taste Insights</h1>
@@ -234,7 +231,7 @@
                     x: {
                         ticks: {
                             font: {
-                                size: 16  // Adjust font size for X-axis labels
+                                size: 16 
                             }
                         }
                     },
@@ -242,7 +239,7 @@
                         beginAtZero: true,
                         ticks: {
                             font: {
-                                size: 16  // Adjust font size for Y-axis labels
+                                size: 16 
                             }
                         }
                     }

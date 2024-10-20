@@ -42,36 +42,36 @@
     h1 {
         text-align: center;
         font-size: 2.5em;
-        color: #1DB954; /* Spotify Green for the heading */
+        color: #1DB954;
         margin-bottom: 20px;
     }
 
     .info-container {
-        background-color: #252525; /* Darker background for the containers */
+        background-color: #252525;
         border-radius: 10px;
         padding: 20px;
-        margin-top: 40px; /* Space between the containers */
-        text-align: center; /* Center the text */
-        color: #E5E5E5; /* Light text color */
+        margin-top: 40px; 
+        text-align: center;
+        color: #E5E5E5;
         transition: background-color 0.3s ease-in-out;
     }
 
     .info-container h2 {
-        font-size: 24px; /* Font size for the title */
-        margin-bottom: 10px; /* Space below the title */
+        font-size: 24px;
+        margin-bottom: 10px; 
     }
 
     .info-container p {
-        font-size: 16px; /* Font size for the paragraph */
-        margin-bottom: 20px; /* Space below the paragraph */
+        font-size: 16px;
+        margin-bottom: 20px;
     }
 
     .schedule-button {
         display: inline-block;
-        background-color: #1DB954; /* Spotify Green */
+        background-color: #1DB954;
         color: white;
         padding: 10px 20px;
-        border-radius: 25px; /* Rounded button */
+        border-radius: 25px;
         text-decoration: none;
         font-size: 16px;
         font-weight: bold;
@@ -79,11 +79,11 @@
     }
 
     .schedule-button:hover {
-        background-color: #1ed760; /* Lighter green on hover */
+        background-color: #1ed760;
     }
 
     .info-container:hover {
-        background-color: #333; /* Slightly darker on hover */
+        background-color: #333;
     }
 
     .right-column img {
@@ -98,20 +98,20 @@
     }
 
     .logincontainer {
-        background-color: #252525; /* Dark background */
+        background-color: #252525;
         padding: 40px;
         border-radius: 10px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
         text-align: center;
         justify-self: center;
-        color: #E5E5E5; /* Light text color */
+        color: #E5E5E5;
         animation: fadeInContainer 0.8s ease-in-out forwards;
     }
 
     .logincontainer h1 {
         font-size: 2.5em;
         font-weight: 700;
-        color: #1DB954; /* Using your application's primary color */
+        color: #1DB954;
         margin-bottom: 20px;
     }
 
@@ -151,7 +151,6 @@
         color: white;
     }
 
-    /* Dark mode variables (default) */
     :root {
         --background-color: #121212;
         --text-color: #E5E5E5;
@@ -162,7 +161,6 @@
         --info-background-color: #252525;
     }
 
-    /* Light mode variables */
     body.light-mode {
         --background-color: #ffffff;
         --text-color: #121212;
@@ -173,7 +171,6 @@
         --info-background-color: #8b8b8b;
     }
 
-    /* Apply the variables */
     body {
         background-color: var(--background-color);
         color: var(--text-color);
@@ -187,7 +184,7 @@
     .container {
         background-color: var(--container-background-color);
         border-radius: 15px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* light shadow for light mode */
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     }
 
     .info-container {
@@ -213,7 +210,6 @@
             Choose your preferred theme. The selected mode will be applied across all pages.
         </p>
 
-        <!-- Toggle for Light/Dark Mode -->
         <div class="dark-mode-toggle" style="align-items: center; justify-content: center;"> 
             <span class="toggle-icon moon">🌙</span> 
             <label class="switch">

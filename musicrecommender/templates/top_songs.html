@@ -130,6 +130,7 @@
             opacity: 0; 
         }
 
+        /* need to simplify */
         tr:nth-child(1) {
             animation-delay: 0.1s;
         }
@@ -194,7 +195,7 @@
             animation-delay: 4.1s;
         }
 
-        /* Dark mode variables (default) */
+        /* dark mode vars */
         :root {
             --background-color: #121212;
             --text-color: #E5E5E5;
@@ -210,7 +211,7 @@
             --hover-row-color: #3B3B3B;
         }
 
-        /* Light mode variables */
+        /* light mode vars */
         body.light-mode {
             --background-color: #ffffff;
             --text-color: #121212;
@@ -226,7 +227,7 @@
             --hover-row-color: #6b6b6b;
         }
 
-        /* Apply the variables */
+        
         body {
             background-color: var(--background-color);
             color: var(--text-color);
@@ -245,7 +246,7 @@
         .container {
             background-color: var(--container-background-color);
             border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Light shadow for light mode */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
 
         .info-container {
