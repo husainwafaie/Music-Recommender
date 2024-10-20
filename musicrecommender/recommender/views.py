@@ -276,7 +276,7 @@ def my_info(request):
         'name': 'Husain Wafaie',
         'image_url': '/static/assets/Husain-pic.jpg',
         'bio': """
-        I am a software developer with a passion for AI, 
+        I am a software engineer with a passion for AI, 
         full-stack development, and solving complex problems 
         through technology. 
         I graduated from UC Irvine with a CS major, and I love 
