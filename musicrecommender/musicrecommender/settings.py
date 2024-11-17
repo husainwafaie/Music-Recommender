@@ -62,7 +62,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'musicrecommender.urls'
+ROOT_URLCONF = 'musicrecommender.musicrecommender.urls'
 
 TEMPLATES = [
     {
