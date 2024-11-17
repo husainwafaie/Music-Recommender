@@ -1,7 +1,6 @@
 Django==5.1
 gunicorn==23.0.0
 psutil==5.9.5
-psycopg==3.2.1
 psycopg2-binary==2.9.9
 regex==2024.9.11
 requests==2.31.0
@@ -15,3 +14,4 @@ validators==0.20.0
 wasabi==1.1.3
 whitenoise==6.7.0
 dotenv==0.22.0
+python-dotenv==1.0.0
