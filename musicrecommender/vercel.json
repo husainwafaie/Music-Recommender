@@ -1,14 +1,14 @@
 {
     "builds": [
         {
-            "src": "musicrecommender/musicrecommender/wsgi.py",
+            "src": "musicrecommender/wsgi.py",
             "use": "@vercel/python"
         }
     ],
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "musicrecommender/musicrecommender/wsgi.py"
+            "dest": "musicrecommender/wsgi.py"
         }
     ]
 }
